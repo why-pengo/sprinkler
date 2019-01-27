@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Zone Map
+class zone(models.Model):
+    pin = models.IntegerField()
+
