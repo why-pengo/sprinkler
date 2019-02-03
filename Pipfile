@@ -10,6 +10,7 @@ django = "*"
 pytest = "*"
 pytest-sugar = "*"
 django-environ = "*"
+wiringpi = {version = "*", sys_platform = "== 'armv7l'"}
 
 [requires]
 python_version = "3.7"
