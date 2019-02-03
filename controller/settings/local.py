@@ -10,24 +10,14 @@ environ.Env.read_env()  # reading .env file
 
 DEBUG = env('DEBUG')  # False if not in os.environ
 TEMPLATE_DEBUG = DEBUG
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = root()  # os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '*m3azlg-4-xe*&xbvp+*k5jo-7go%1$5qh+ebry_s9^vnz46%h'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
