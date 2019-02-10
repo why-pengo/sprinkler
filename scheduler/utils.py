@@ -8,7 +8,7 @@ from _datetime import datetime, timedelta
 def gpio_setup(zone_map):
     """set gpio0-7 to output mode and write 0/LOW/OFF
     so we are in a known state at start up"""
-    print(f"utils::gpioSetup: entering...")
+    print(f"scheduler/utils::gpioSetup: entering...")
 
     if platform.machine() == 'armv71':
         import wiringpi
@@ -18,8 +18,8 @@ def gpio_setup(zone_map):
             for i in range(1, len(zone_map) + 1):
                 wiringpi.pinMode(zone_map[i], 1)  # Set pin to 1 ( OUTPUT )
                 wiringpi.digitalWrite(zone_map[i], 1)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
-                print(f"utils::gpioSetup: setting zone = {i} pin = {zone_map[i]} to OUTPUT/OFF")
-                print(f"utils::gpioSetup: no wiringpi, we in dev?")
+                print(f"scheduler/utils::gpioSetup: setting zone = {i} pin = {zone_map[i]} to OUTPUT/OFF")
+                print(f"scheduler/utils::gpioSetup: no wiringpi, we in dev?")
 
 
 def init_zone_map():
@@ -107,7 +107,7 @@ def get_current_zone_map():
 
 def print_zone_map(zone_map):
     for zone in zone_map:
-        print(f"utils::print_zone_map: zone.num = {zone.num}")
+        print(f"scheduler/utils::print_zone_map: zone.num = {zone.num}")
         print(f"\tzone.bcm = {zone.bcm}")
         print(f"\tzone.pin = {zone.pin}")
         print(f"\tzone.gpio = {zone.gpio}")
@@ -118,14 +118,14 @@ def relay_call(pin, call):
     Open/Close relay
     0 = On, 1 = Off
     """
-    print(f"utils::relay_call: entering...")
+    print(f"scheduler/utils::relay_call: entering...")
 
     if platform.machine() == 'armv71':
         import wiringpi
 
     # zone = list(zoneMap.keys())[list(zoneMap.values()).index(pin)]
     zone = ZoneMap.objects.filter(pin__exact=int(pin))
-    print(f"relay_call: zone = {zone} pin = {pin} call = {call} 0/On 1/Off time = {datetime.now}")
+    print(f"scheduler/utils::relay_call: zone = {zone} pin = {pin} call = {call} 0/On 1/Off time = {datetime.now}")
     if 'wiringpi' in sys.modules:
         value = wiringpi.digitalRead(pin)  # Read pin
         wiringpi.digitalWrite(pin, call)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
