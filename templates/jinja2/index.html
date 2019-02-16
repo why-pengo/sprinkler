@@ -4,4 +4,12 @@
     <input type="checkbox" class="custom-control-input" id="customSwitch1">
     <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
 </div>
+<script>
+    $(document).ready(function(){
+        $('#customSwitch1').change(function() {
+            var chk = $("#customSwitch1").is(":checked")
+            console.log("chk = " + chk)
+        });
+    });
+</script>
 {% endblock %}
