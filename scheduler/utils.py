@@ -4,7 +4,6 @@ from .models import ZoneMap
 from _datetime import datetime, timedelta
 
 
-
 def gpio_setup(zone_map):
     """set gpio0-7 to output mode and write 0/LOW/OFF
     so we are in a known state at start up"""

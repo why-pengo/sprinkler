@@ -14,6 +14,7 @@ wiringpi = {version = "*",sys_platform = "== 'armv7l'"}
 celery = "*"
 flower = "*"
 django-celery-beat = "*"
+jinja2 = "*"
 
 [requires]
 python_version = "3.7"
