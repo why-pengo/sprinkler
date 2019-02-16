@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from scheduler.views import HomeView
+from status.views import HomeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
