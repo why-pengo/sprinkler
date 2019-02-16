@@ -6,4 +6,4 @@ class HomeView(View):
 
     @staticmethod
     def get(request):
-        render(request, 'index.html')
+        return render(request, 'index.html', None)
