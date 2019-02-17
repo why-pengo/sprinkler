@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-    <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+<div class="container">
+    <br />
+    <form>
+        <div class="form-group">
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </form>
 </div>
 <script>
     $(document).ready(function(){
