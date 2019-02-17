@@ -119,6 +119,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# MacOS
+.DS_Store
 
 # static root
 public
