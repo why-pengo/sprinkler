@@ -61,3 +61,8 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+/* End Switch */
+
+body {
+    background: url('/static/img/grass.png');
+}
