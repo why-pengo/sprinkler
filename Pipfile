@@ -16,6 +16,7 @@ flower = "*"
 django-celery-beat = "*"
 jinja2 = "*"
 coverage = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.7"
