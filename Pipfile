@@ -15,6 +15,7 @@ celery = "*"
 flower = "*"
 django-celery-beat = "*"
 jinja2 = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.7"
