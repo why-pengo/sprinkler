@@ -17,6 +17,8 @@ django-celery-beat = "*"
 jinja2 = "*"
 coverage = "*"
 selenium = "*"
+pytest-django = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
