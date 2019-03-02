@@ -7,7 +7,7 @@ SCREEN_DUMP_LOCATION = os.path.join(
 )
 
 
-class NewVisitorTests(StaticLiveServerTestCase):
+class StatusViewsTests(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
