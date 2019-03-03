@@ -33,7 +33,7 @@
                     <form>
                         <div class="form-group">
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" name="zone" value="1">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -50,7 +50,7 @@
                     <form>
                         <div class="form-group">
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" name="zone" value="2">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -70,7 +70,7 @@
                     <form>
                         <div class="form-group">
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" name="zone" value="3">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -87,7 +87,7 @@
                     <form>
                         <div class="form-group">
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" name="zone" value="4">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -107,7 +107,7 @@
                     <form>
                         <div class="form-group">
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" name="zone" value="5">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -121,9 +121,8 @@
 
 <script>
     $(document).ready(function(){
-        $('#customSwitch1').change(function() {
-            var chk = $("#customSwitch1").is(":checked")
-            console.log("chk = " + chk)
+        $('input:checkbox').click(function() {
+            $('input:checkbox').not(this).prop('checked', false);
         });
     });
 </script>
