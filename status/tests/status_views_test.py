@@ -1,9 +1,10 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.firefox.webdriver import WebDriver
+from django.conf import settings
 import os
 
 SCREEN_DUMP_LOCATION = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'screendumps'
+    settings.BASE_DIR, 'screendumps'
 )
 
 
@@ -22,5 +23,6 @@ class StatusViewsTests(StaticLiveServerTestCase):
 
     def test_landing_page_title(self):
         self.selenium.get(f"{self.live_server_url}")
+        self.selenium.save_screenshot(f"{SCREEN_DUMP_LOCATION}/test_landing_page_title.png")
 
         self.assertIn('Sprinkler Controller ][', self.selenium.title)

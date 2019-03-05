@@ -7,20 +7,20 @@ SCREEN_DUMP_LOCATION = os.path.join(
 )
 
 
-class SchedulerViewsTests(StaticLiveServerTestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.selenium = WebDriver()
-        cls.selenium.implicitly_wait(10)
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        super().tearDownClass()
-
-    def test_landing_page_title(self):
-        self.selenium.get(f"{self.live_server_url}")
-
-        self.assertIn('Sprinkler Controller ][', self.selenium.title)
+# class SchedulerViewsTests(StaticLiveServerTestCase):
+#
+#     @classmethod
+#     def setUpClass(cls):
+#         super().setUpClass()
+#         cls.selenium = WebDriver()
+#         cls.selenium.implicitly_wait(10)
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         cls.selenium.quit()
+#         super().tearDownClass()
+#
+#     def test_landing_page_title(self):
+#         self.selenium.get(f"{self.live_server_url}")
+#
+#         self.assertIn('Sprinkler Controller ][', self.selenium.title)
