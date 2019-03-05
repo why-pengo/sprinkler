@@ -5,7 +5,7 @@ class SchedulerConfig(AppConfig):
     name = 'scheduler'
 
     def ready(self):
-        from .utils import init_zone_map, get_current_zone_map, print_zone_map, gpio_setup
+        from controller.utils import init_zone_map, get_current_zone_map, gpio_setup
         from .models import ZoneMap
 
         print(f"scheduler/apps::ready: Checking if zone map is setup.")
