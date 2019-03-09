@@ -19,6 +19,7 @@ coverage = "*"
 selenium = "*"
 pytest-django = "*"
 pytest-cov = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"

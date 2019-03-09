@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_beat',
+    'rest_framework',
 
     'scheduler',
     'status'
@@ -124,3 +125,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
+# https://docs.djangoproject.com/en/2.1/topics/http/sessions/#browser-length-vs-persistent-sessions
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 28800  # 8h in seconds
+# https://docs.djangoproject.com/en/2.1/ref/django-admin/#django-admin-clearsessions

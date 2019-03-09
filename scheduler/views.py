@@ -1,9 +1,12 @@
-from django.views import View
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import ZoneMap
+from .serializers import ZoneMapSerializer
 
 
-# class HomeView(View):
-#
-#     @staticmethod
-#     def get(request):
-#         return render(request, 'index.html', None)
+class ZoneMapViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows ZoneMap to be viewed or edited.
+    """
+    queryset = ZoneMap.objects.all().order_by('num')
+    serializer_class = ZoneMapSerializer
+
