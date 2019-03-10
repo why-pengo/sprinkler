@@ -20,6 +20,7 @@ selenium = "*"
 pytest-django = "*"
 pytest-cov = "*"
 djangorestframework = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"
