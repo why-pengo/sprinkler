@@ -100,6 +100,8 @@ def init_zone_map():
     zone_map.gpio = '7'
     zone_map.save()
 
+    return True
+
 
 def get_current_zone_map():
     """Query module and return a dict on zone map"""
@@ -134,7 +136,7 @@ def relay_call(pin, call):
         value = wiringpi.digitalRead(pin)  # Read pin
 
 
-# API backend calls
+# API backend
 def zone_on(zone):
     zone_map = ZoneMap.objects.get(num__exact=zone)
     print(f"controller/utils::zoneOn: zone = {zone}")
@@ -166,7 +168,7 @@ def run_for(zone, minutes):
 
     # schedule stop
     stop_time = datetime.now() + timedelta(minutes=minutes)
-    print("runFor: adding relay_call(", zoneMap[zone], ", 1) ", stop_time)
+    print("runFor: adding relay_call(", zone_map[bcm], ", 1) ", stop_time)
     # logging.debug("runFor: adding relay_call(%d, 1 - on stop now", zoneMap[zone])
     # replace with celery beat
     # scheduler.add_job(relay_call, 'date', run_date=stop_time, args=[bcm, 1])
@@ -174,43 +176,45 @@ def run_for(zone, minutes):
     return jsonify('runFor: %d' % zone)
 
 
-# def list_jobs():
-#     job_list = []
-#     jobs = scheduler.get_jobs()
-#     for i in range(0, len(jobs)):
-#         job = {}
-#         job['name'] = jobs[i].name
-#         args = jobs[i].args
-#         if len(args) != 0:
-#             job['arg0'] = args[0]
-#             job['arg1'] = args[1]
-#         job['trigger'] = str(jobs[i].trigger)
-#         print("list_jobs: found job ", job)
-#         job_list.append(job)
-#
-#     return jsonify(job_list)
-#
-#
-# def time_stamp():
-#     print("Time stamp: ", datetime.now())
-#
-#
-# def running():
-#     print("running: check if any zone is currently running")
-#     value = 0
-#     for i in range(1, len(zoneMap)):
-#         if 'wiringpi' in sys.modules:
-#             value = wiringpi.digitalRead(zoneMap[i])  # Read pin
-#         else:
-#             value = 1
-#
-#         if(not value):
-#             OnOff = "On"
-#             print("running: zone = ", i, ", pin = ", zoneMap[i], " is ", OnOff)
-#             return jsonify(i)
-#         else:
-#             OnOff = "Off"
-#
-#         print("running: zone = ", i, ", pin = ", zoneMap[i], " is ", OnOff)
-#
-#     return jsonify('none')
+def list_jobs():
+    job_list = []
+    # replace with celery beat
+    # jobs = scheduler.get_jobs()
+    jobs = []
+    for i in range(0, len(jobs)):
+        job = dict()
+        job['name'] = jobs[i].name
+        args = jobs[i].args
+        if len(args) != 0:
+            job['arg0'] = args[0]
+            job['arg1'] = args[1]
+        job['trigger'] = str(jobs[i].trigger)
+        print("list_jobs: found job ", job)
+        job_list.append(job)
+
+    return jsonify(job_list)
+
+
+def time_stamp():
+    print("Time stamp: ", datetime.now())
+
+
+def running():
+    print("running: check if any zone is currently running")
+    value = 0
+    for zone in ZoneMap.objects.all():
+        if 'wiringpi' in sys.modules:
+            value = wiringpi.digitalRead(zone.pin)  # Read pin
+        else:
+            value = 1
+
+        if not value:
+            on_off = "On"
+            print("running: zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
+            return jsonify(zone.num)
+        else:
+            on_off = "Off"
+
+        print("running: zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
+
+    return jsonify('none')

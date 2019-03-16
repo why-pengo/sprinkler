@@ -1,7 +1,6 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.firefox.webdriver import WebDriver
 import requests
-import json
 import os
 
 SCREEN_DUMP_LOCATION = os.path.join(
