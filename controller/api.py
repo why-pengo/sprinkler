@@ -5,11 +5,10 @@ from scheduler.models import ZoneMap
 from _datetime import datetime, timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions
+from rest_framework import permissions
 
 
 class ZoneOn(APIView):
-    authentication_classes = (authentication.TokenAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, zone):
@@ -44,7 +43,6 @@ class ZoneOn(APIView):
 
 
 class ZoneOff(APIView):
-    authentication_classes = (authentication.TokenAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
     @staticmethod
@@ -57,7 +55,6 @@ class ZoneOff(APIView):
 
 
 class ListJobs(APIView):
-    authentication_classes = (authentication.TokenAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
     @staticmethod
@@ -81,11 +78,9 @@ class ListJobs(APIView):
 
 
 class Running(APIView):
-    authentication_classes = (authentication.TokenAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
-    @staticmethod
-    def get():
+    def get(self, request, format=None):
         if platform.machine() == 'armv71':
             import wiringpi
 
