@@ -19,8 +19,9 @@ urlpatterns = [
     # api
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api-auth/zone_on/', ZoneOn.as_view()),
-    path('api-auth/zone_off/', ZoneOff.as_view()),
+    path('zone_on/<zone>', ZoneOn.as_view()),
+    path('zone_off/<zone>', ZoneOff.as_view()),
     path('running/', Running.as_view()),
-    path('api-auth/list_jobs/', ListJobs.as_view()),
+    path('list_jobs/', ListJobs.as_view()),
 ]
+

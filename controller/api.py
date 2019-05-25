@@ -11,10 +11,10 @@ from rest_framework import permissions
 class ZoneOn(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
-    def get(self, zone):
-        zone_map = ZoneMap.objects.get(num__exact=zone)
+    def get(self, request, zone):
+        # zone_map = ZoneMap.objects.get(num__exact=zone)
         print(f"controller/utils::zoneOn: zone = {zone}")
-        print(f"controller/utils::zoneOn: BCM  = {zone_map.bcm}")
+        # print(f"controller/utils::zoneOn: BCM  = {zone_map.bcm}")
         self.run_for(zone, 5)
         return Response(f'zoneOn: {zone}')
 
@@ -34,7 +34,7 @@ class ZoneOn(APIView):
 
         # schedule stop
         stop_time = datetime.now() + timedelta(minutes=minutes)
-        print("runFor: adding relay_call(", zone_map[bcm], ", 1) ", stop_time)
+        print("runFor: adding relay_call(", zone_map.bcm, ", 1) ", stop_time)
         # logging.debug("runFor: adding relay_call(%d, 1 - on stop now", zoneMap[zone])
         # replace with celery beat
         # scheduler.add_job(relay_call, 'date', run_date=stop_time, args=[bcm, 1])
@@ -46,7 +46,7 @@ class ZoneOff(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     @staticmethod
-    def get(zone):
+    def get(request, zone):
         zone_map = ZoneMap.objects.get(num__exact=zone)
         print(f"controller/utils::zoneOff: zone = {zone}")
         print(f"controller/utils::zoneOff: BCM = {zone_map.bcm}")

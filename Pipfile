@@ -11,8 +11,6 @@ pytest = "*"
 pytest-sugar = "*"
 django-environ = "*"
 wiringpi = {version = "*",sys_platform = "== 'armv7l'"}
-celery = "*"
-flower = "*"
 django-celery-beat = "*"
 jinja2 = "*"
 coverage = "*"
@@ -21,6 +19,7 @@ pytest-django = "*"
 pytest-cov = "*"
 djangorestframework = "*"
 requests = "*"
+django-chroniker = "*"
 
 [requires]
 python_version = "3.6"
