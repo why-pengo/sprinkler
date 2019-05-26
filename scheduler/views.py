@@ -1,6 +1,11 @@
 from rest_framework import viewsets
 from .models import ZoneMap
 from .serializers import ZoneMapSerializer
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views import View
+
+from .forms import SchedulerForm
 
 
 class ZoneMapViewSet(viewsets.ModelViewSet):
@@ -10,3 +15,20 @@ class ZoneMapViewSet(viewsets.ModelViewSet):
     queryset = ZoneMap.objects.all().order_by('num')
     serializer_class = ZoneMapSerializer
 
+
+class ScheduleView(View):
+    form_class = SchedulerForm
+    initial = {'key': 'value'}
+    template_name = 'schedule.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+        return render(request, self.template_name, {'form': form})

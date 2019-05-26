@@ -11,3 +11,14 @@ class ZoneMap(models.Model):
     gpio = models.IntegerField()
 
 
+class ZoneSchedule(models.Model):
+    """
+    Zone Schedule
+    """
+    # dow = Day of Week, smtwtfs
+    dow = models.CharField(max_length=7)
+    start = models.TimeField()
+    end = models.TimeField()
+    zone = models.IntegerField()
+    active = models.BooleanField()
+

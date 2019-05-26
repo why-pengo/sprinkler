@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework import routers
 from status.views import HomeView
 from controller.api import ZoneOn, ZoneOff, Running, ListJobs
-from scheduler.views import ZoneMapViewSet
+from scheduler.views import ZoneMapViewSet, ScheduleView
 
 router = routers.DefaultRouter()
 router.register(r'zones', ZoneMapViewSet)
@@ -15,6 +15,7 @@ urlpatterns = [
 
     # sprinkler
     path('', HomeView.as_view()),
+    path('schedule', ScheduleView.as_view()),
 
     # api
     path('', include(router.urls)),

@@ -1,7 +1,7 @@
 import sys
 import platform
 from scheduler.models import ZoneMap
-from _datetime import datetime, timedelta
+from datetime import datetime
 
 
 def gpio_setup(zone_map):
@@ -108,7 +108,7 @@ def get_current_zone_map():
 
 def print_zone_map(zone_map):
     for zone in zone_map:
-        print(f"scheduler/utils::print_zone_map: zone.num = {zone.num}")
+        print(f"controller/utils::print_zone_map: zone.num = {zone.num}")
         print(f"\tzone.bcm = {zone.bcm}")
         print(f"\tzone.pin = {zone.pin}")
         print(f"\tzone.gpio = {zone.gpio}")
@@ -119,18 +119,18 @@ def relay_call(pin, call):
     Open/Close relay
     0 = On, 1 = Off
     """
-    print(f"scheduler/utils::relay_call: entering...")
-
     if platform.machine() == 'armv71':
         import wiringpi
 
-    # zone = list(zoneMap.keys())[list(zoneMap.values()).index(pin)]
-    zone = ZoneMap.objects.filter(pin__exact=int(pin))
-    print(f"controller/utils::relay_call: zone = {zone} pin = {pin} call = {call} 0/On 1/Off time = {datetime.now}")
+    zone = ZoneMap.objects.get(pin__exact=int(pin))
+    timestamp = datetime.now()
+    print(f"controller/utils::relay_call: zone = {zone.num} pin = {pin} call = {call} 0/On 1/Off time = {timestamp}")
     if 'wiringpi' in sys.modules:
         value = wiringpi.digitalRead(pin)  # Read pin
+        print(f"controller/utils::relay_call: value before = {value}")
         wiringpi.digitalWrite(pin, call)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
         value = wiringpi.digitalRead(pin)  # Read pin
+        print(f"controller/utils::relay_call: value after = {value}")
 
 
 
