@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="col-sm bg-white rounded-lg m-3 p-1 zonebox">
+        <a href="schedule" class="button">New</a>
+        <ul>
+            {% for schedule in schedules %}
+            <li>{{ schedule.dow }} {{ schedule.start }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

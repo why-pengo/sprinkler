@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views import View
 
 from .forms import SchedulerForm
+from .models import ZoneSchedule
 
 
 class ZoneMapViewSet(viewsets.ModelViewSet):
@@ -32,3 +33,12 @@ class ScheduleView(View):
             return HttpResponseRedirect('/success/')
 
         return render(request, self.template_name, {'form': form})
+
+
+class SchedulesView(View):
+    template_name = 'schedules.html'
+
+    def get(self, request):
+        model = ZoneSchedule.objects.all()
+        return render(request, self.template_name, {'model': model})
+
