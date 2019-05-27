@@ -2,51 +2,49 @@
 {% block content %}
 
 <div class="container center-block" style="width: 540px;">
-    <div class="row">
-        <div class="col-sm bg-white rounded-lg m-3 p-3 zonebox">
-            <form action="/your-name/" method="post">
-                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <div class="form-group">
-                    {{ form.dow.errors }}
-                    <label class="control-label" for="id_dow">Day of week</label>
-                    <input type="text" name="dow" maxlength="7" required id="id_dow"
-                            placeholder="smtwtfs" class="form-control input-md">
-                    <span class="help-block">Sun, Mon, Tue, Wed, Thu, Fri</span>
-                </div>
-                <div class="form-group">
-                    {{ form.start.errors }}
-                    <label class="control-label" for="id_start">Start time</label>
-                    <input type="time" name="start" required id="id_start" class="form-control input-md">
-                    <span class="help-block">12 hour with AM/PM</span>
-                </div>
-                <div class="form-group">
-                    {{ form.end.errors }}
-                    <label class="control-label" for="id_end">End time</label>
-                    <input type="time" name="end" required id="id_end" class="form-control input-md">
-                    <span class="help-block">12 hour with AM/PM</span>
-                </div>
-                <div class="form-group">
-                    {{ form.zone.errors }}
-                    <label class="control-label" for="id_zone">Zone</label>
-                    <select name="zone" id="id_zone" class="form-control input-md">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                    <span class="help-block">Select Zone</span>
-                </div>
-                <div class="form-group">
-                    {{ form.active.errors }}
-                    <label class="control-label" for="id_active">Active</label>
-                    <label class="checkbox-inline" for="id_active">
-                        <input type="checkbox" name="active" required id="id_active">
-                    </label>
-                </div>
-                <input class="button btn-primary" type="submit" value="Submit">
-            </form>
-        </div>
+    <div class="bg-white rounded-lg m-3 p-3 zonebox">
+        <form action="/schedule/{{ zone }}" method="post">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <div class="form-group">
+                {{ form.dow.errors }}
+                <label class="control-label" for="id_dow">Day of week</label>
+                <input type="text" name="dow" maxlength="7" required id="id_dow"
+                       placeholder="smtwtfs" class="form-control input-md">
+                <span class="help-block">Sun, Mon, Tue, Wed, Thu, Fri</span>
+            </div>
+            <div class="form-group">
+                {{ form.start.errors }}
+                <label class="control-label" for="id_start">Start time</label>
+                <input type="time" name="start" required id="id_start" class="form-control input-md">
+                <span class="help-block">12 hour with AM/PM</span>
+            </div>
+            <div class="form-group">
+                {{ form.end.errors }}
+                <label class="control-label" for="id_end">End time</label>
+                <input type="time" name="end" required id="id_end" class="form-control input-md">
+                <span class="help-block">12 hour with AM/PM</span>
+            </div>
+            <div class="form-group">
+                {{ form.zone.errors }}
+                <label class="control-label" for="id_zone">Zone</label>
+                <select name="zone" id="id_zone" class="form-control input-md">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                <span class="help-block">Select Zone</span>
+            </div>
+            <div class="form-group">
+                {{ form.active.errors }}
+                <label class="control-label" for="id_active">Active</label>
+                <label class="checkbox-inline" for="id_active">
+                    <input type="checkbox" name="active" required id="id_active">
+                </label>
+            </div>
+            <input class="button btn-primary" type="submit" value="Submit">
+        </form>
     </div>
 </div>
 

@@ -30,11 +30,17 @@ class ScheduleView(View):
             form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, zone):
+        if zone == 'New':
+            # TODO: insert
+            pass
+        else:
+            # TODO: update
+            pass
         form = self.form_class(request.POST)
         if form.is_valid():
             # <process form cleaned data>
-            return HttpResponseRedirect('/success/')
+            return HttpResponseRedirect('/')
 
         return render(request, self.template_name, {'form': form})
 
