@@ -2,14 +2,39 @@
 {% block content %}
 
 <div class="container-fluid">
-    <div class="col-sm bg-white rounded-lg m-3 p-1 zonebox">
+    <div class="col-sm bg-white rounded-lg mr-5 mt-3 table-responsive zonebox">
         <a href="schedule" class="button">New</a>
-        <ul>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Zone</th>
+                <th scope="col">Day of week</th>
+                <th scope="col">Start time</th>
+                <th scope="col">End time</th>
+                <th scope="col">Active</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for schedule in schedules %}
-            <li>{{ schedule.dow }} {{ schedule.start }}</li>
+                <tr class="clickable-row" data-url="{{ schedule.zone }}}">
+                    <td>{{ schedule.zone }}</td>
+                    <td>{{ schedule.dow }}</td>
+                    <td>{{ schedule.start }}</td>
+                    <td>{{ schedule.end }}</td>
+                    <td>{{ schedule.active }}</td>
+                </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
     </div>
 </div>
+
+<script>
+    $(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data('url');
+        });
+    });
+</script>
 
 {% endblock %}
