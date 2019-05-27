@@ -2,8 +2,8 @@
 {% block content %}
 
 <div class="container-fluid">
-    <div class="col-sm bg-white rounded-lg mr-5 mt-3 table-responsive zonebox">
-        <a href="schedule" class="button">New</a>
+    <div class="col-sm bg-white rounded-lg mr-5 mt-3 p-2 table-responsive zonebox">
+        <a class="btn btn-primary m-1" href="schedule/New" role="button">New</a>
         <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             {% for schedule in schedules %}
-                <tr class="clickable-row" data-url="{{ schedule.zone }}}">
+                <tr class="clickable-row" data-url="schedule/{{ schedule.zone }}">
                     <td>{{ schedule.zone }}</td>
                     <td>{{ schedule.dow }}</td>
                     <td>{{ schedule.start }}</td>

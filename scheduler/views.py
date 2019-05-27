@@ -22,8 +22,12 @@ class ScheduleView(View):
     initial = {'key': 'value'}
     template_name = 'schedule.html'
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
+    def get(self, request, zone):
+        if zone == 'New':
+            form = self.form_class(initial=self.initial)
+        else:
+            print(f"zone = {zone}")
+            form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
