@@ -39,6 +39,6 @@ class SchedulesView(View):
     template_name = 'schedules.html'
 
     def get(self, request):
-        model = ZoneSchedule.objects.all()
-        return render(request, self.template_name, {'model': model})
+        schedules = ZoneSchedule.objects.all()
+        return render(request, self.template_name, {'schedules': schedules})
 
