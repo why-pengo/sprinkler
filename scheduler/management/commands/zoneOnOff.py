@@ -4,6 +4,7 @@ from controller.utils import relay_call
 
 
 class Command(BaseCommand):
+
     def add_arguments(self, parser):
         parser.add_argument('zone', type=str, help='Zone by number.')
         parser.add_argument('on_off', type=str, help='Turn on or off the requested zone.')

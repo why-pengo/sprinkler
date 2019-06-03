@@ -133,4 +133,13 @@ def relay_call(pin, call):
         print(f"controller/utils::relay_call: value after = {value}")
 
 
+def read_crontab():
+    pass
 
+
+def write_crontab():
+    pass
+
+
+def json_to_crontab_entry():
+    pass

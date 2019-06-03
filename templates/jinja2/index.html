@@ -106,9 +106,15 @@
     $(document).ready(function(){
         $('input:checkbox').click(function() {
             $('input:checkbox').not(this).prop('checked', false);
-            $.ajax({url: `/zone_on/${this.value}`, success: function(result){
-                    $("#div1").html("<p>done</p>");
-                }});
+            const url = `/zone_on/${this.value}`;
+            $.ajax(
+                {
+                    url: url, success: function(result){
+                        $("#div1").html("<p>done</p>");
+                        console.log(`call to ${url} result = ${result}`);
+                    }
+                }
+            );
         });
     });
 </script>

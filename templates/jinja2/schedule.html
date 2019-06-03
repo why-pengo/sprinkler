@@ -3,7 +3,7 @@
 
 <div class="container center-block" style="width: 540px;">
     <div class="bg-white rounded-lg m-3 p-3 zonebox">
-        <form action="/schedule/{{ zone }}" method="post">
+        <form action="/schedule" method="post">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <div class="form-group">
                 {{ form.dow.errors }}
