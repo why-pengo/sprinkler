@@ -81,7 +81,7 @@ class Running(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request, format=None):
-        if platform.machine() == 'armv71':
+        if platform.machine() == 'armv7l':
             import wiringpi
 
         print("running: check if any zone is currently running")

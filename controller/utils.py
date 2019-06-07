@@ -9,7 +9,7 @@ def gpio_setup(zone_map):
     so we are in a known state at start up"""
     print(f"scheduler/utils::gpioSetup: entering...")
 
-    if platform.machine() == 'armv71':
+    if platform.machine() == 'armv7l':
         import wiringpi
 
         if 'wiringpi' in sys.modules:
@@ -119,7 +119,7 @@ def relay_call(pin, call):
     Open/Close relay
     0 = On, 1 = Off
     """
-    if platform.machine() == 'armv71':
+    if platform.machine() == 'armv7l':
         import wiringpi
 
     zone = ZoneMap.objects.get(pin__exact=int(pin))
