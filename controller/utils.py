@@ -2,12 +2,14 @@ import sys
 import platform
 from scheduler.models import ZoneMap
 from datetime import datetime
+from loguru import logger
 
 
 def gpio_setup(zone_map):
     """set gpio0-7 to output mode and write 0/LOW/OFF
     so we are in a known state at start up"""
-    print(f"scheduler/utils::gpioSetup: entering...")
+    # print(f"scheduler/utils::gpioSetup: entering...")
+    logger.debug(f"entering...")
 
     if platform.machine() == 'armv7l':
         import wiringpi
@@ -17,8 +19,11 @@ def gpio_setup(zone_map):
             for i in range(1, len(zone_map) + 1):
                 wiringpi.pinMode(zone_map[i], 1)  # Set pin to 1 ( OUTPUT )
                 wiringpi.digitalWrite(zone_map[i], 1)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
-                print(f"scheduler/utils::gpioSetup: setting zone = {i} pin = {zone_map[i]} to OUTPUT/OFF")
-                print(f"scheduler/utils::gpioSetup: no wiringpi, we in dev?")
+                # print(f"scheduler/utils::gpioSetup: setting zone = {i} pin = {zone_map[i]} to OUTPUT/OFF")
+                logger.debug(f"setting zone = {i} pin = {zone_map[i]} to OUTPUT/OFF")
+        else:
+            # print(f"scheduler/utils::gpioSetup: no wiringpi, we in dev?")
+            logger.debug(f"no wiringpi, we in dev?")
 
 
 def init_zone_map():
@@ -108,10 +113,14 @@ def get_current_zone_map():
 
 def print_zone_map(zone_map):
     for zone in zone_map:
-        print(f"controller/utils::print_zone_map: zone.num = {zone.num}")
-        print(f"\tzone.bcm = {zone.bcm}")
-        print(f"\tzone.pin = {zone.pin}")
-        print(f"\tzone.gpio = {zone.gpio}")
+        # print(f"controller/utils::print_zone_map: zone.num = {zone.num}")
+        logger.debug(f"zone.num = {zone.num}")
+        # print(f"\tzone.bcm = {zone.bcm}")
+        logger.debug(f"\tzone.bcm = {zone.bcm}")
+        # print(f"\tzone.pin = {zone.pin}")
+        logger.debug(f"\tzone.pin = {zone.pin}")
+        # print(f"\tzone.gpio = {zone.gpio}")
+        logger.debug(f"\tzone.gpio = {zone.gpio}")
 
 
 def relay_call(pin, call):
@@ -124,13 +133,16 @@ def relay_call(pin, call):
 
     zone = ZoneMap.objects.get(pin__exact=int(pin))
     timestamp = datetime.now()
-    print(f"controller/utils::relay_call: zone = {zone.num} pin = {pin} call = {call} 0/On 1/Off time = {timestamp}")
+    # print(f"controller/utils::relay_call: zone = {zone.num} pin = {pin} call = {call} 0/On 1/Off time = {timestamp}")
+    logger.debug(f"zone = {zone.num} pin = {pin} call = {call} 0/On 1/Off time = {timestamp}")
     if 'wiringpi' in sys.modules:
         value = wiringpi.digitalRead(pin)  # Read pin
-        print(f"controller/utils::relay_call: value before = {value}")
+        # print(f"controller/utils::relay_call: value before = {value}")
+        logger.debug(f"value before = {value}")
         wiringpi.digitalWrite(pin, call)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
         value = wiringpi.digitalRead(pin)  # Read pin
-        print(f"controller/utils::relay_call: value after = {value}")
+        # print(f"controller/utils::relay_call: value after = {value}")
+        logger.debug(f"value after = {value}")
 
 
 def read_crontab():

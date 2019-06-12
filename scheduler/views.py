@@ -4,6 +4,7 @@ from .serializers import ZoneMapSerializer
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
+from loguru import logger
 
 from .forms import SchedulerForm
 
@@ -36,8 +37,10 @@ class ScheduleView(View):
             form = self.form_class(initial=initial)
         else:
             zone_obj = ZoneSchedule.objects.get(zone__exact=zone)
-            print(f"{self.lp}get:39 zone = {zone}")
-            print(f"{self.lp}get:40 dow = {zone_obj.dow}")
+            # print(f"{self.lp}get:39 zone = {zone}")
+            logger.debug(f"zone = {zone}")
+            # print(f"{self.lp}get:40 dow = {zone_obj.dow}")
+            logger.debug(f"dow = {zone_obj.dow}")
             initial = {
                 'dow': zone_obj.dow,
                 'start': zone_obj.start,
@@ -55,11 +58,16 @@ class ScheduleView(View):
         end = request.POST['end']
         zone = request.POST['zone']
         active = request.POST['active']
-        print(f"{self.lp}post:59 dow = {dow}")
-        print(f"{self.lp}post:60 start = {start}")
-        print(f"{self.lp}post:61 end = {end}")
-        print(f"{self.lp}post:62 zone = {zone}")
-        print(f"{self.lp}post:63 active = {active}")
+        # print(f"{self.lp}post:59 dow = {dow}")
+        logger.debug(f"dow = {dow}")
+        # print(f"{self.lp}post:60 start = {start}")
+        logger.debug(f"start = {start}")
+        # print(f"{self.lp}post:61 end = {end}")
+        logger.debug(f"end = {end}")
+        # print(f"{self.lp}post:62 zone = {zone}")
+        logger.debug(f"zone = {zone}")
+        # print(f"{self.lp}post:63 active = {active}")
+        logger.debug(f"active = {active}")
         form = self.form_class(request.POST)
         if form.is_valid():
             # <process form cleaned data>

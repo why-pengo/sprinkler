@@ -20,6 +20,7 @@ pytest-cov = "*"
 djangorestframework = "*"
 requests = "*"
 django-chroniker = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.6"
