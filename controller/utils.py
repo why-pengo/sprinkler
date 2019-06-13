@@ -3,6 +3,7 @@ import platform
 from scheduler.models import ZoneMap
 from datetime import datetime
 from loguru import logger
+from crontab import CronTab
 
 
 def gpio_setup(zone_map):
@@ -146,7 +147,7 @@ def relay_call(pin, call):
 
 
 def read_crontab():
-    pass
+    return CronTab(user=True)
 
 
 def write_crontab():

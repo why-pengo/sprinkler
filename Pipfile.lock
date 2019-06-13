@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c78d178e857bb46bcf0cf21b04079195b63d86d3b37c8b2269ecd0fb3332499c"
+            "sha256": "879dab46fffd96f00cde6cbea8d753ab297ce32439e072758b25b0f66d9c6df9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -303,6 +303,7 @@
             "hashes": [
                 "sha256:91ce4b245ee5e5c117aa0b21b485bc43f2d80df854a36e922b707643f50d7923"
             ],
+            "index": "pypi",
             "version": "==2.3.6"
         },
         "python-dateutil": {
