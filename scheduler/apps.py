@@ -21,18 +21,19 @@ class SchedulerConfig(AppConfig):
             zone_map = get_current_zone_map()
             # print_zone_map(zone_map)
 
-            try:
-                gpio_initialized = AppConfig.objects.get(name='gpio_initialized')
-            except AppConfig.DoesNotExist:
-                gpio_initialized = 'False'
-            if gpio_initialized is 'False':
-                gpio_initialized = AppConfig(name='gpio_initialized', value='True')
-                gpio_initialized.save()
-                # logger.debug(f"Calling gpio_setup.")
-                gpio_setup(zone_map)
-            else:
-                # logger.debug(f"gpio_initialized = {gpio_initialized.value}.")
-                pass
+            gpio_setup(zone_map)
+            # try:
+            #     gpio_initialized = AppConfig.objects.get(name='gpio_initialized')
+            # except AppConfig.DoesNotExist:
+            #     gpio_initialized = 'False'
+            # if gpio_initialized is 'False':
+            #     gpio_initialized = AppConfig(name='gpio_initialized', value='True')
+            #     gpio_initialized.save()
+            #     # logger.debug(f"Calling gpio_setup.")
+            #     gpio_setup(zone_map)
+            # else:
+            #     # logger.debug(f"gpio_initialized = {gpio_initialized.value}.")
+            #     pass
 
         except Exception as e:
             logger.debug(f"Exception: {e}")
