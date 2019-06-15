@@ -19,9 +19,9 @@ def gpio_setup(zone_map):
             logger.debug(f"found wiringpi in sys.modules.")
             wiringpi.wiringPiSetupGpio()  # For GPIO pin numbering
             for i in range(1, len(zone_map) + 1):
-                wiringpi.pinMode(str(zone_map[i]), 1)  # Set pin to 1 ( OUTPUT )
-                wiringpi.digitalWrite(str(zone_map[i]), 1)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
-                logger.debug(f"setting zone = {i} pin = {zone_map[i]} to OUTPUT/OFF")
+                wiringpi.pinMode(zone_map[i].bcm, 1)  # Set pin to 1 ( OUTPUT )
+                wiringpi.digitalWrite(zone_map[i].bcm, 1)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
+                logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
         else:
             logger.debug(f"no wiringpi, we in dev?")
 
