@@ -32,8 +32,8 @@ class ZoneOn(APIView):
         # scheduler.add_job(relay_call, args=[bcm, 0])
 
         # schedule stop
-        stop_time = datetime.now() + timedelta(minutes=minutes)
-        logger.debug(f"adding relay_call({zone_map.bcm}, 1)")
+        # stop_time = datetime.now() + timedelta(minutes=minutes)
+        # logger.debug(f"adding relay_call({zone_map.bcm}, 1)")
         # scheduler.add_job(relay_call, 'date', run_date=stop_time, args=[bcm, 1])
 
         return Response(f'runFor: {zone}')
