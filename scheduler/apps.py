@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from loguru import logger
 
 
 class SchedulerConfig(AppConfig):
@@ -8,6 +7,7 @@ class SchedulerConfig(AppConfig):
     def ready(self):
         from controller.utils import init_zone_map, get_current_zone_map, gpio_setup
         from .models import ZoneMap, AppConfig
+        from loguru import logger
 
         logger.debug(f"Checking if zone map is setup.")
         try:
