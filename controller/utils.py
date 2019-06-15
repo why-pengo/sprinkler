@@ -119,7 +119,7 @@ def print_zone_map(zone_map):
         logger.debug(f"\tzone.gpio = {zone.gpio}")
 
 
-def relay_call(pin, call):
+def relay_call(bcm, call):
     """
     Open/Close relay
     0 = On, 1 = Off
@@ -127,14 +127,14 @@ def relay_call(pin, call):
     if platform.machine() == 'armv7l':
         import wiringpi
 
-    zone = ZoneMap.objects.get(pin__exact=int(pin))
+    zone = ZoneMap.objects.get(bcm__exact=int(bcm))
     timestamp = datetime.now()
-    logger.debug(f"zone = {zone.num} pin = {pin} call = {call} 0/On 1/Off time = {timestamp}")
+    logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} 0/On 1/Off time = {timestamp}")
     if 'wiringpi' in sys.modules:
-        value = wiringpi.digitalRead(pin)  # Read pin
+        value = wiringpi.digitalRead(bcm)  # Read bcm
         logger.debug(f"value before = {value}")
-        wiringpi.digitalWrite(pin, call)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
-        value = wiringpi.digitalRead(pin)  # Read pin
+        wiringpi.digitalWrite(bcm, call)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
+        value = wiringpi.digitalRead(bcm)  # Read bcm
         logger.debug(f"value after = {value}")
 
 
