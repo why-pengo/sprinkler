@@ -21,6 +21,8 @@ def gpio_setup(zone_map):
             for i in range(1, len(zone_map) + 1):
                 wiringpi.pinMode(zone_map[i].bcm, 1)  # Set pin to 1 ( OUTPUT )
                 wiringpi.digitalWrite(zone_map[i].bcm, 1)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
+                value = wiringpi.digitalRead(zone_map[i].bcm)  # Read bcm
+                logger.debug(f"bcm value = {value}")
                 logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
         else:
             logger.debug(f"no wiringpi, we in dev?")
@@ -129,7 +131,7 @@ def relay_call(bcm, call):
 
     zone = ZoneMap.objects.get(bcm__exact=int(bcm))
     timestamp = datetime.now()
-    logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} 0/On 1/Off time = {timestamp}")
+    logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
     if 'wiringpi' in sys.modules:
         value = wiringpi.digitalRead(bcm)  # Read bcm
         logger.debug(f"value before = {value}")
