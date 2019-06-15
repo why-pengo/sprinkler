@@ -133,6 +133,7 @@ def relay_call(bcm, call):
     timestamp = datetime.now()
     logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
     if 'wiringpi' in sys.modules:
+        wiringpi.wiringPiSetupGpio()  # For GPIO pin numbering
         wiringpi.pinMode(bcm, 1)  # Set pin to 1 ( OUTPUT )
         value = wiringpi.digitalRead(bcm)  # Read bcm
         logger.debug(f"value before = {value}")
