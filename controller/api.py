@@ -12,7 +12,7 @@ from loguru import logger
 class ZoneOn(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
-    def get(self, zone):
+    def get(self, request, zone):
         logger.debug(f"zone = {zone}")
         self.run_for(zone, 5)
         return Response(f'zoneOn: {zone}')
@@ -42,7 +42,7 @@ class ZoneOn(APIView):
 class ZoneOff(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
-    def get(self, zone):
+    def get(self, request, zone):
         zone_map = ZoneMap.objects.get(num__exact=zone)
         bcm = zone_map.bcm
         logger.debug(f"zone = {zone}")
