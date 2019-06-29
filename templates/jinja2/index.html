@@ -105,16 +105,30 @@
 <script>
     $(document).ready(function(){
         $('input:checkbox').click(function() {
-            $('input:checkbox').not(this).prop('checked', false);
-            const url = `/zone_on/${this.value}`;
-            $.ajax(
-                {
-                    url: url, success: function(result){
-                        $("#div1").html("<p>done</p>");
-                        console.log(`call to ${url} result = ${result}`);
+            let checked = $(this).prop('checked');
+            console.log(`zone = ${this.value}, checked = ${checked}`);
+            if (checked === false) {
+                const url = `/zone_off/${this.value}`;
+                $.ajax(
+                    {
+                        url: url, success: function(result){
+                            $("#div1").html("<p>done</p>");
+                            console.log(`call to ${url} result = ${result}`);
+                        }
                     }
-                }
-            );
+                );
+            } else {
+                $('input:checkbox').not(this).prop('checked', false);
+                const url = `/zone_on/${this.value}`;
+                $.ajax(
+                    {
+                        url: url, success: function(result){
+                            $("#div1").html("<p>done</p>");
+                            console.log(`call to ${url} result = ${result}`);
+                        }
+                    }
+                );
+            }
         });
     });
 </script>
