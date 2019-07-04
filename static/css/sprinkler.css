@@ -77,3 +77,8 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+@font-face{
+    font-family:'digital-led-font';
+    src: url('/public/fonts/DIGITALDREAMFAT.ttf');
+}
