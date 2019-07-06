@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div id="zone1" class="container col-7 mt-1 mb-1 bg-dark text-light rounded-lg"
-                             style="font-family: digital-led-font; font-size: small;">Message display</div>
+                             style="font-family: digital-led-font; font-size: small;"></div>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,9 @@
         </div>
     </div>
 </div>
-<div class="row bg-light rounded-lg m-3" id="div1"></div>
+<div class="row bg-light rounded-lg m-2 pl-lg-2 pt-lg-2 pr-lg-2 pb-0">
+    <pre id="debug" style="width: 100%;" class="pb-0"></pre>
+</div>
 
 <script>
     $(document).ready(function(){
@@ -145,24 +147,30 @@
             let checked = $(this).prop('checked');
             console.log(`zone = ${this.value}, checked = ${checked}`);
             if (checked === false) {
-                const url = `/zone_off/${this.value}`;
+                const zone = this.value;
+                const url = `/zone_off/${zone}`;
                 $.ajax(
                     {
                         url: url, success: function(result){
-                            $("#div1").html(`<p>${result}</p>`);
+                            let selector = $(`#zone${zone}`);
+                            selector.text(`result\n`);
+                            $("#debug").append(`${result}\n`);
                             console.log(`call to ${url} result = ${result}`);
                         }
                     }
                 );
             } else {
                 $('input:checkbox').not(this).prop('checked', false);
-                const url = `/zone_on/${this.value}`;
+                const zone = this.value;
+                const url = `/zone_on/${zone}`;
                 $.ajax(
                     {
                         url: url, success: function(result){
-                            $("#div1").html(`<p>zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}</p>`);
-                            let selector = $(`#zone${result.zoneOn}`);
-                            selector.html(`<p>zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}</p>`);
+                            let msg = `zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}\n`;
+                            let selector = $(`#zone${zone}`);
+                            selector.text(msg);
+                            selector = $("#debug");
+                            selector.append(msg);
                             console.log(`call to ${url} result = ${result}`);
                         }
                     }

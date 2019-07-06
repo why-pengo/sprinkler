@@ -82,3 +82,9 @@ body {
     font-family:'digital-led-font';
     src: url('/public/fonts/DIGITALDREAMFAT.ttf');
 }
+
+#debug {
+    resize: vertical;
+    scroll-behavior: auto;
+    max-height: 200px;
+}
