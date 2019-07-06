@@ -50,15 +50,22 @@ class ZoneOn(APIView):
 
 class ZoneOff(APIView):
     permission_classes = (permissions.IsAuthenticated, )
+    tz = settings.TIME_ZONE
 
     def get(self, request, zone):
         zone_map = ZoneMap.objects.get(num__exact=zone)
+        timestamp = f"{datetime.now().strftime('%X')} {self.tz}"
         bcm = zone_map.bcm
         logger.debug(f"zone = {zone}")
         logger.debug(f"BCM = {bcm}")
         # TODO: add timestamp
         utils.relay_call(bcm, 1)
-        return Response(f'zoneOff: {zone}')
+        rv = {
+            'zoneOff': f"{zone}",
+            'timestamp': f"{timestamp}"
+        }
+        # return Response(f'zoneOff: {zone}')
+        return Response(rv)
 
 
 class ListJobs(APIView):
