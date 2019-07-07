@@ -21,6 +21,11 @@ class ScheduleView(View):
     template_name = 'schedule.html'
 
     def get(self, request, zs_id):
+        dow = str()
+        start = str()
+        end = str()
+        active = False
+        zone = str()
         if zs_id == '0':
             initial = {
                 'zone': 'New'
@@ -32,23 +37,20 @@ class ScheduleView(View):
             logger.debug(f"id = {zs_id}")
             logger.debug(f"zone = {zone_obj.zone}")
             logger.debug(f"dow = {zone_obj.dow}")
-            # initial = {
-            #     'dow': zone_obj.dow,
-            #     'start': zone_obj.start,
-            #     'end': zone_obj.end,
-            #     'active': zone_obj.active,
-            #     'zone': zone_obj.zone,
-            # }
-            # form = self.form_class(initial=initial)
+            dow = zone_obj.dow
+            start = zone_obj.start
+            end = zone_obj.end
+            active = zone_obj.active
+            zone = zone_obj.zone
             form = self.form_class()
         return render(request, self.template_name, {
             'form': form,
             'id': zs_id,
-            'dow': zone_obj.dow,
-            'start': zone_obj.start,
-            'end': zone_obj.end,
-            'active': zone_obj.active,
-            'zone': zone_obj.zone,
+            'dow': dow,
+            'start': start,
+            'end': end,
+            'active': active,
+            'zone': zone,
         })
 
     def post(self, request):
