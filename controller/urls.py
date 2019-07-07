@@ -4,6 +4,7 @@ from rest_framework import routers
 from status.views import HomeView
 from controller.api import ZoneOn, ZoneOff, Running, ListJobs
 from scheduler.views import ZoneMapViewSet, SchedulesView, ScheduleView
+from django.contrib.auth.decorators import login_required
 
 router = routers.DefaultRouter()
 router.register(r'zones', ZoneMapViewSet)
@@ -15,9 +16,9 @@ urlpatterns = [
 
     # sprinkler
     path('', HomeView.as_view()),
-    path('schedules', SchedulesView.as_view()),
-    path('schedule', ScheduleView.as_view()),
-    path('schedule/<zs_id>', ScheduleView.as_view()),
+    path('schedules', login_required(SchedulesView.as_view())),
+    path('schedule', login_required(ScheduleView.as_view())),
+    path('schedule/<zs_id>', login_required(ScheduleView.as_view())),
 
     # api
     path('', include(router.urls)),

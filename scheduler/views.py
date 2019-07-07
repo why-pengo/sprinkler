@@ -55,25 +55,36 @@ class ScheduleView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
+        logger.debug(request.POST)
+        sub_type = str()
+        if 'sub_type' in request.POST:
+            sub_type = request.POST['sub_type']
+        logger.debug(f"sub_type = {sub_type}")
         if form.is_valid():
-            zone = request.POST['zone']
-            dow = request.POST['dow']
-            start = request.POST['start']
-            end = request.POST['end']
-            zone = request.POST['zone']
-            active = request.POST['active']
-            logger.debug(f"dow = {dow}")
-            logger.debug(f"start = {start}")
-            logger.debug(f"end = {end}")
-            logger.debug(f"zone = {zone}")
-            logger.debug(f"active = {active}")
-            zone_obj = ZoneSchedule()
-            zone_obj.dow = dow
-            zone_obj.start = start
-            zone_obj.end = end
-            zone_obj.zone = zone
-            zone_obj.active = True if active == 'on' else False
-            zone_obj.save()
+            if sub_type == 'Save':
+                zone = request.POST['zone']
+                dow = request.POST['dow']
+                start = request.POST['start']
+                end = request.POST['end']
+                zone = request.POST['zone']
+                active = request.POST['active']
+                logger.debug(f"dow = {dow}")
+                logger.debug(f"start = {start}")
+                logger.debug(f"end = {end}")
+                logger.debug(f"zone = {zone}")
+                logger.debug(f"active = {active}")
+                zone_obj = ZoneSchedule()
+                zone_obj.dow = dow
+                zone_obj.start = start
+                zone_obj.end = end
+                zone_obj.zone = zone
+                zone_obj.active = True if active == 'on' else False
+                zone_obj.save()
+                # TODO: save to crontab
+            if sub_type == 'Delete':
+                zs_id = request.POST['zs_id']
+                logger.debug(f"Deleting zone schedule id = {zs_id}")
+                # TODO: delete from db and crontab
             return HttpResponseRedirect('/schedules')
 
         return render(request, self.template_name, {'form': form})
