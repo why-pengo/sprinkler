@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
     <div class="col-sm bg-white rounded-lg mr-5 mt-3 p-2 table-responsive zonebox">
-        <a class="btn btn-primary m-1" href="/schedule" role="button">New</a>
+        <a class="btn btn-primary m-1" href="/schedule/0" role="button">New</a>
         <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             {% for schedule in schedules %}
-                <tr class="clickable-row" data-url="schedule/{{ schedule.zone }}">
+                <tr class="clickable-row" data-url="schedule/{{ schedule.id }}">
                     <td>{{ schedule.zone }}</td>
                     <td>{{ schedule.dow }}</td>
                     <td>{{ schedule.start }}</td>
@@ -26,6 +26,9 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="text-dark">
+            <span class="help-block">Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6</span>
+        </div>
     </div>
 </div>
 

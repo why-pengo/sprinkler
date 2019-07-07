@@ -16,7 +16,7 @@ urlpatterns = [
     # sprinkler
     path('', HomeView.as_view()),
     path('schedules', SchedulesView.as_view()),
-    path('schedule', ScheduleView.as_view()),
+    path('schedule/<zs_id>', ScheduleView.as_view()),
 
     # api
     path('', include(router.urls)),

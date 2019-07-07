@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+{#
+<br />
+<div class="bg-light text-dark rounded-lg">id = {{ id }}</div>
+<br />
+#}
 
 <div class="container center-block" style="width: 540px;">
     <div class="bg-white rounded-lg m-3 p-3 zonebox">
@@ -9,8 +14,8 @@
                 {{ form.dow.errors }}
                 <label class="control-label" for="id_dow">Day of week</label>
                 <input type="text" name="dow" maxlength="7" required id="id_dow"
-                       placeholder="smtwtfs" class="form-control input-md">
-                <span class="help-block">Sun, Mon, Tue, Wed, Thu, Fri</span>
+                       placeholder="0-6" class="form-control input-md">
+                <span class="help-block">Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6</span>
             </div>
             <div class="form-group">
                 {{ form.start.errors }}
@@ -49,5 +54,11 @@
 </div>
 
 <script>
+    let id = "{{ id }}";
+    let dow = "{{ dow }}";
+    let start = "{{ start }}";
+    let end = "{{ end }}";
+    let active = "{{ active }}";
+    let zone = "{{ zone }}";
 </script>
 {% endblock %}
