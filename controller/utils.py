@@ -1,6 +1,6 @@
 import sys
 import platform
-from scheduler.models import ZoneMap
+from scheduler.models import ZoneMap, ZoneSchedule
 from datetime import datetime
 from loguru import logger
 from crontab import CronTab
@@ -150,5 +150,17 @@ def write_crontab(cron):
     cron.write()
 
 
-def json_to_crontab_entry():
-    pass
+def save_crontab_entry(zs_id):
+    logger.debug(f"zs_id = {id}")
+    zone_obj = ZoneSchedule.objects.get(pk=id)
+    zone = zone_obj.zone
+    start = zone_obj.start
+    end = zone_obj.end
+    # https://pypi.org/project/python-crontab/
+    # pipenv run python manage.py zoneOnOff zone on_off
+    # TODO: how to handle working directory
+    # ~/workspace/sprinkler
+    cron = read_crontab()
+    start_job = cron.new(command="cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on")
+    end_job = cron.new(command="cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off")
+
