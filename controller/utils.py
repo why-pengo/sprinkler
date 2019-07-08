@@ -151,16 +151,37 @@ def write_crontab(cron):
 
 
 def save_crontab_entry(zs_id):
-    logger.debug(f"zs_id = {id}")
-    zone_obj = ZoneSchedule.objects.get(pk=id)
+    logger.debug(f"zs_id = {zs_id}")
+    zone_obj = ZoneSchedule.objects.get(pk=zs_id)
     zone = zone_obj.zone
+    dow = str(zone_obj.dow)
+    logger.debug(f"dow = {dow}")
     start = zone_obj.start
+    s_hour, s_min, s_secs = str(start).split(':', 3)
+    logger.debug(f"s_hour = {s_hour}, s_min = {s_min}, s_secs = {s_secs}")
+
     end = zone_obj.end
+    e_hour, e_min, e_secs = str(end).split(':', 3)
+    logger.debug(f"e_hour = {e_hour}, e_min = {e_min}, e_secs = {e_secs}")
+
     # https://pypi.org/project/python-crontab/
     # pipenv run python manage.py zoneOnOff zone on_off
     # TODO: how to handle working directory
     # ~/workspace/sprinkler
     cron = read_crontab()
-    start_job = cron.new(command="cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on")
-    end_job = cron.new(command="cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off")
+
+    start_job = cron.new(command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on")
+    start_job.day.on(dow)
+    start_job.hour.on(s_hour)
+    start_job.minute.on(s_min)
+
+    end_job = cron.new(command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off")
+    end_job.day.on(dow)
+    end_job.hour.on(e_hour)
+    end_job.minute.on(e_min)
+
+    cron.write()
+
+    for line in cron.lines:
+        logger.debug(f"cron entry: {line}")
 

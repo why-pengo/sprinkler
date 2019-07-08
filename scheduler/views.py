@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views import View
 from loguru import logger
 from .forms import SchedulerForm
+from controller import utils
 
 
 class ZoneMapViewSet(viewsets.ModelViewSet):
@@ -80,9 +81,11 @@ class ScheduleView(View):
                 zone_obj.zone = zone
                 zone_obj.active = True if active == 'on' else False
                 zone_obj.save()
-                # TODO: save to crontab
+                utils.save_crontab_entry(str(zone_obj.id))
             if sub_type == 'Delete':
                 zs_id = request.POST['zs_id']
+                zone_obj = ZoneSchedule.objects.get(pk=zs_id)
+                zone_obj.delete()
                 logger.debug(f"Deleting zone schedule id = {zs_id}")
                 # TODO: delete from db and crontab
             return HttpResponseRedirect('/schedules')
