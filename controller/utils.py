@@ -146,10 +146,6 @@ def read_crontab():
     return CronTab(user=True)
 
 
-def write_crontab(cron):
-    cron.write()
-
-
 def save_crontab_entry(zs_id):
     logger.debug(f"zs_id = {zs_id}")
     zone_obj = ZoneSchedule.objects.get(pk=zs_id)
@@ -170,18 +166,33 @@ def save_crontab_entry(zs_id):
     # ~/workspace/sprinkler
     cron = read_crontab()
 
-    start_job = cron.new(command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on")
+    start_job = cron.new(
+        command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on",
+        comment=f"zs_id={zs_id}"
+    )
     start_job.day.on(dow)
     start_job.hour.on(s_hour)
     start_job.minute.on(s_min)
 
-    end_job = cron.new(command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off")
+    logger.debug(f"start_job.is_valid = {start_job.is_valid()}")
+
+    end_job = cron.new(
+        command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off",
+        comment=f"zs_id={zs_id}"
+    )
     end_job.day.on(dow)
     end_job.hour.on(e_hour)
     end_job.minute.on(e_min)
+
+    logger.debug(f"end_job.is_valid = {end_job.is_valid()}")
 
     cron.write()
 
     for line in cron.lines:
         logger.debug(f"cron entry: {line}")
+
+    iter = cron.find_comment(f"zs_id={zs_id}")
+
+    for line in iter:
+        logger.debug(f"found {line}")
 
