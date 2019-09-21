@@ -1,5 +1,6 @@
 import sys
 import platform
+import controller.settings.local as settings
 from scheduler.models import ZoneMap, ZoneSchedule
 from datetime import datetime
 from loguru import logger
@@ -166,9 +167,13 @@ def save_crontab_entry(zs_id):
     # ~/workspace/sprinkler
     cron = read_crontab()
 
+    # get Django root
+    base_dir = settings.BASE_DIR
+
+    # command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on",
     start_job = cron.new(
-        command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on",
-        comment=f"zs_id={zs_id}"
+        command=f"{base_dir}/scripts/cron_run.sh {base_dir} {zone} on",
+        comment=f"zs_id={zs_id} on"
     )
     start_job.day.on(dow)
     start_job.hour.on(s_hour)
@@ -176,9 +181,10 @@ def save_crontab_entry(zs_id):
 
     logger.debug(f"start_job.is_valid = {start_job.is_valid()}")
 
+    # command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off",
     end_job = cron.new(
-        command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off",
-        comment=f"zs_id={zs_id}"
+        command=f"{base_dir}/scripts/cron_run.sh {base_dir} {zone} off",
+        comment=f"zs_id={zs_id} off"
     )
     end_job.day.on(dow)
     end_job.hour.on(e_hour)
