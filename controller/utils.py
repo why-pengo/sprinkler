@@ -151,6 +151,10 @@ def save_crontab_entry(zs_id):
     logger.debug(f"zs_id = {zs_id}")
     zone_obj = ZoneSchedule.objects.get(pk=zs_id)
     zone = zone_obj.zone
+    comment_id = datetime.now().isoformat(timespec='minutes')
+    zone_obj.cron_key = comment_id
+    zone_obj.save()
+
     dow = str(zone_obj.dow)
     logger.debug(f"dow = {dow}")
     start = zone_obj.start
@@ -161,35 +165,27 @@ def save_crontab_entry(zs_id):
     e_hour, e_min, e_secs = str(end).split(':', 3)
     logger.debug(f"e_hour = {e_hour}, e_min = {e_min}, e_secs = {e_secs}")
 
-    # https://pypi.org/project/python-crontab/
-    # pipenv run python manage.py zoneOnOff zone on_off
-    # TODO: how to handle working directory
-    # ~/workspace/sprinkler
     cron = read_crontab()
 
     # get Django root
     base_dir = settings.BASE_DIR
 
-    # command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} on",
     start_job = cron.new(
         command=f"{base_dir}/scripts/cron_run.sh {base_dir} {zone} on",
-        comment=f"zs_id={zs_id} on"
+        comment=f"{comment_id}"
     )
-    start_job.day.on(dow)
+    start_job.dow.on(dow)
     start_job.hour.on(s_hour)
     start_job.minute.on(s_min)
-
     logger.debug(f"start_job.is_valid = {start_job.is_valid()}")
 
-    # command=f"cd ~/workspace/sprinkler; pipenv run python manage.py zoneOnOff {zone} off",
     end_job = cron.new(
         command=f"{base_dir}/scripts/cron_run.sh {base_dir} {zone} off",
-        comment=f"zs_id={zs_id} off"
+        comment=f"{comment_id}"
     )
-    end_job.day.on(dow)
+    end_job.dow.on(dow)
     end_job.hour.on(e_hour)
     end_job.minute.on(e_min)
-
     logger.debug(f"end_job.is_valid = {end_job.is_valid()}")
 
     cron.write()
@@ -199,24 +195,21 @@ def save_crontab_entry(zs_id):
 
 
 def delete_crontab_entry(zs_id):
-    logger.debug(f"zs_id = {zs_id}")
     zone_obj = ZoneSchedule.objects.get(pk=zs_id)
+    comment_id = zone_obj.cron_key
     zone_obj.delete()
 
     cron = read_crontab()
-    cron.remove_all(comment=f"zs_id={zs_id}")
-    cron.write()
 
     for line in cron.lines:
         logger.debug(f"cron entry: {line}")
 
-    iter = cron.find_comment(f"zs_id={zs_id}")
+    iter = cron.find_comment(f"{comment_id}")
 
     for line in iter:
         logger.debug(f"found {line}")
 
-    iter = cron.find_comment(f"zs_id={zs_id}")
-
-    for line in iter:
-        logger.debug(f"found {line}")
+    logger.debug(f"deleting schedule id = {zs_id}, comment_id = {comment_id}")
+    cron.remove_all(comment=f"{comment_id}")
+    cron.write()
 

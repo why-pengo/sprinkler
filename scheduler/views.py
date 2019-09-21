@@ -84,9 +84,6 @@ class ScheduleView(View):
                 utils.save_crontab_entry(str(zone_obj.id))
             if sub_type == 'Delete':
                 zs_id = request.POST['zs_id']
-                zone_obj = ZoneSchedule.objects.get(pk=zs_id)
-                zone_obj.delete()
-                logger.debug(f"Deleting zone schedule id = {zs_id}")
                 utils.delete_crontab_entry(zs_id)
             return HttpResponseRedirect('/schedules')
 

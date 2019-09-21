@@ -22,6 +22,7 @@ class ZoneSchedule(models.Model):
     zone = models.IntegerField()
     active = models.BooleanField()
     crontab = models.CharField(max_length=50)
+    cron_key = models.CharField(max_length=15)
 
 
 class AppConfig(models.Model):
