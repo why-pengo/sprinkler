@@ -31,6 +31,7 @@ cd "$base" || exit
 # installed_pipenv=$(command -v pipenv)
 installed_pipenv="/home/pi/Apps/python/bin/pipenv"
 venv=$($installed_pipenv --venv)
+PATH="$venv"/bin:$PATH
 venv_python=$venv/bin/python
 
 "$installed_pipenv" run "$venv_python" manage.py zoneOnOff "$zone" "$switch"
