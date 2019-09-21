@@ -1,4 +1,6 @@
 #!/bin/bash
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
 if [ $# -eq 0 ]
   then
@@ -28,7 +30,7 @@ cd "$base" || exit
 
 # installed_pipenv=$(command -v pipenv)
 installed_pipenv="/home/pi/Apps/python/bin/pipenv"
-venv=$(pipenv --venv)
+venv=$($installed_pipenv --venv)
 venv_python=$venv/bin/python
 
 "$installed_pipenv" run "$venv_python" manage.py zoneOnOff "$zone" "$switch"
