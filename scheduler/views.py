@@ -87,7 +87,7 @@ class ScheduleView(View):
                 zone_obj = ZoneSchedule.objects.get(pk=zs_id)
                 zone_obj.delete()
                 logger.debug(f"Deleting zone schedule id = {zs_id}")
-                # TODO: delete from db and crontab
+                utils.delete_crontab_entry(zs_id)
             return HttpResponseRedirect('/schedules')
 
         return render(request, self.template_name, {'form': form})

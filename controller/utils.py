@@ -191,6 +191,24 @@ def save_crontab_entry(zs_id):
     for line in cron.lines:
         logger.debug(f"cron entry: {line}")
 
+
+def delete_crontab_entry(zs_id):
+    logger.debug(f"zs_id = {zs_id}")
+    zone_obj = ZoneSchedule.objects.get(pk=zs_id)
+    zone_obj.delete()
+
+    cron = read_crontab()
+    cron.remove_all(comment=f"zs_id={zs_id}")
+    cron.write()
+
+    for line in cron.lines:
+        logger.debug(f"cron entry: {line}")
+
+    iter = cron.find_comment(f"zs_id={zs_id}")
+
+    for line in iter:
+        logger.debug(f"found {line}")
+
     iter = cron.find_comment(f"zs_id={zs_id}")
 
     for line in iter:
