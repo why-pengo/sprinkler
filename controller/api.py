@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from loguru import logger
 from django.conf import settings
+from controller import utils
 
 
 class ZoneOn(APIView):
@@ -95,24 +96,4 @@ class Running(APIView):
 
     @staticmethod
     def get(request, format=None):
-        if platform.machine() == 'armv7l':
-            import wiringpi
-
-        logger.debug("check if any zone is currently running")
-        value = 0
-        for zone in ZoneMap.objects.all():
-            if 'wiringpi' in sys.modules:
-                value = wiringpi.digitalRead(zone.pin)  # Read pin
-            else:
-                value = 1
-
-            if not value:
-                on_off = "On"
-                logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
-                return Response(zone.num)
-            else:
-                on_off = "Off"
-
-            logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
-
-        return Response('none')
+        return Response(utils.whats_running())
