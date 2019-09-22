@@ -213,3 +213,26 @@ def delete_crontab_entry(zs_id):
     cron.remove_all(comment=f"{comment_id}")
     cron.write()
 
+
+def whats_running():
+    if platform.machine() == 'armv7l':
+        import wiringpi
+
+    logger.debug("check if any zone is currently running")
+    value = 1  # (1 = HIGH/OFF, 0 = LOW/ON )
+    for zone in ZoneMap.objects.all():
+        if 'wiringpi' in sys.modules:
+            value = wiringpi.digitalRead(zone.pin)  # Read pin
+        else:
+            value = 1
+
+        if value == 0:
+            on_off = "On"
+            logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
+            return zone.num
+        else:
+            on_off = "Off"
+
+        logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
+
+        return 0
