@@ -34,4 +34,21 @@ $(document).ready(function(){
             );
         }
     });
+
+    console.log(`running: ${running}`)
+    set_to_running(running)
+
+    setInterval(function(){
+        $.ajax({ url: "/running", success: function(data){
+            console.log(`running returned: ${data}`);
+            set_to_running(data)
+        }, dataType: "json"});
+    }, 30000);
 });
+
+function set_to_running(zone) {
+    if (zone !== '0') {
+        console.log(`set zone ${zone} to running.`);
+        $(":checkbox[value=" + zone + "]").prop("checked","true");
+    }
+}
