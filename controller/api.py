@@ -1,7 +1,7 @@
 import sys
 import platform
 from controller import utils
-from scheduler.models import ZoneMap
+from scheduler.models import ZoneMap, ZoneSchedule
 from _datetime import datetime, timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -73,20 +73,23 @@ class ListJobs(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     @staticmethod
-    def get():
-        job_list = []
-        # jobs = scheduler.get_jobs()
-        jobs = []
-        for i in range(0, len(jobs)):
-            job = dict()
-            job['name'] = jobs[i].name
-            args = jobs[i].args
-            if len(args) != 0:
-                job['arg0'] = args[0]
-                job['arg1'] = args[1]
-            job['trigger'] = str(jobs[i].trigger)
-            logger.debug("found job ", job)
-            job_list.append(job)
+    def get(request):
+        zone_list = ZoneMap.objects.order_by('num')
+        job_list = list()
+        for zone in zone_list:
+            schedule = ZoneSchedule.objects.filter(zone__exact=zone.num)
+            if len(schedule) > 0:
+                zs_list = list()
+                for s in schedule:
+                    zs_dict = dict()
+                    zs_dict['dow'] = s.dow
+                    zs_dict['start'] = s.start
+                    zs_dict['end'] = s.end
+                    zs_dict['active'] = s.active
+                    zs_list.append(zs_dict)
+                job_dict = dict()
+                job_dict[zone.num] = zs_list
+                job_list.append(job_dict)
 
         return Response(job_list)
 

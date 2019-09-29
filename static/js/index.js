@@ -40,15 +40,36 @@ $(document).ready(function(){
 
     setInterval(function(){
         $.ajax({ url: "/running", success: function(data){
-            console.log(`running returned: ${data}`);
+            // console.log(`running returned: ${data}`);
             set_to_running(data)
         }, dataType: "json"});
     }, 30000);
+
+    get_schedules();
 });
 
 function set_to_running(zone) {
+    // console.log(`typeof(zone) = ${typeof(zone)}`);
     if (zone !== '0') {
         console.log(`set zone ${zone} to running.`);
         $(":checkbox[value=" + zone + "]").prop("checked","true");
+    }
+}
+
+function get_schedules() {
+    $.ajax({ url: "/list_jobs", success: function(data){
+            // console.log(`list_jobs returned: ${data}`);
+            set_schedules(data);
+        }, dataType: "json"});
+}
+
+function set_schedules(schedules) {
+    console.log(`Array.isArray(schedules) = ${Array.isArray(schedules)}`);
+    if (Array.isArray(schedules)) {
+        for (zone of schedules) {
+            for (item in zone) {
+                console.log(`zone[${item}] = ${zone[item]}`);
+            }
+        }
     }
 }
