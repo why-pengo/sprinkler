@@ -236,3 +236,20 @@ def whats_running():
         logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
 
         return 0
+
+
+def dow_to_day(dow):
+    if dow == '0' or dow == '7':
+        return 'Sun'
+    if dow == '1':
+        return 'Mon'
+    if dow == '2':
+        return 'Tue'
+    if dow == '3':
+        return 'Wed'
+    if dow == '4':
+        return 'Thu'
+    if dow == '5':
+        return 'Fri'
+    if dow == '6':
+        return 'Sat'

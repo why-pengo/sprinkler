@@ -8,7 +8,8 @@ $(document).ready(function(){
             $.ajax(
                 {
                     url: url, success: function(result){
-                        let msg = `zoneOff = ${result.zoneOff}, timestamp = ${result.timestamp}\n`;
+                        // let msg = `zoneOff = ${result.zoneOff}, timestamp = ${result.timestamp}\n`;
+                        let msg = `zoneOff ${result.timestamp}`;
                         update_zone_text(zone, msg);
                         console.log(`call to ${url} result = ${result}`);
                     }
@@ -21,7 +22,8 @@ $(document).ready(function(){
             $.ajax(
                 {
                     url: url, success: function(result){
-                        let msg = `zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}\n`;
+                        // let msg = `zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}\n`;
+                        let msg = `zoneOn ${result.timestamp}`;
                         update_zone_text(zone, msg);
                         console.log(`call to ${url} result = ${result}`);
                     }
@@ -45,9 +47,9 @@ $(document).ready(function(){
 
 function update_zone_text(zone, msg) {
     let selector = $(`#zone${zone}`);
-    selector.append(msg);
+    selector.append(`${msg}<br />`);
     selector = $("#debug");
-    selector.append(msg);
+    selector.append(`${msg}<br />`);
 }
 
 function set_to_running(zone) {
@@ -75,7 +77,8 @@ function set_schedules(data) {
                 let msg = '';
                 for (let [k, v] of Object.entries(schedule)) {
                     console.log(`k, v = ${k}, ${v}`);
-                    msg = msg.concat(`${k}=${v} `)
+                    // msg = msg.concat(`${k}=${v} `)
+                    msg = msg.concat(`${v} `)
                 }
                 update_zone_text(item, msg);
             }

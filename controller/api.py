@@ -1,4 +1,4 @@
-from _datetime import datetime
+from _datetime import datetime, time
 
 from django.conf import settings
 from loguru import logger
@@ -81,10 +81,10 @@ class ListJobs(APIView):
                 zs_list = list()
                 for s in schedule:
                     zs_dict = dict()
-                    zs_dict['dow'] = s.dow
-                    zs_dict['start'] = s.start
-                    zs_dict['end'] = s.end
-                    zs_dict['active'] = s.active
+                    zs_dict['dow'] = utils.dow_to_day(s.dow)
+                    zs_dict['start'] = s.start.isoformat(timespec='minutes')
+                    zs_dict['end'] = s.end.isoformat(timespec='minutes')
+                    # zs_dict['active'] = s.active
                     zs_list.append(zs_dict)
                 job_dict = dict()
                 job_dict[zone.num] = zs_list
