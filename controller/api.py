@@ -1,14 +1,13 @@
-import sys
-import platform
+from _datetime import datetime
+
+from django.conf import settings
+from loguru import logger
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from controller import utils
 from scheduler.models import ZoneMap, ZoneSchedule
-from _datetime import datetime, timedelta
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import permissions
-from loguru import logger
-from django.conf import settings
-from controller import utils
 
 
 class ZoneOn(APIView):

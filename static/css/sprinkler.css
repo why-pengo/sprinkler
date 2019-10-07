@@ -69,6 +69,7 @@ body {
 
 .zonebox {
     min-width: 300px;
+    padding-right: 5px;
 }
 
 .footer {
@@ -87,4 +88,10 @@ body {
     resize: vertical;
     scroll-behavior: auto;
     max-height: 200px;
+}
+
+.zone_text {
+    font-family: digital-led-font;
+    font-size: small;
+    max-height: 125px;
 }

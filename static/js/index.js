@@ -9,9 +9,7 @@ $(document).ready(function(){
                 {
                     url: url, success: function(result){
                         let msg = `zoneOff = ${result.zoneOff}, timestamp = ${result.timestamp}\n`;
-                        let selector = $(`#zone${zone}`);
-                        selector.text(msg);
-                        $("#debug").append(msg);
+                        update_zone_text(zone, msg);
                         console.log(`call to ${url} result = ${result}`);
                     }
                 }
@@ -24,10 +22,7 @@ $(document).ready(function(){
                 {
                     url: url, success: function(result){
                         let msg = `zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}\n`;
-                        let selector = $(`#zone${zone}`);
-                        selector.text(msg);
-                        selector = $("#debug");
-                        selector.append(msg);
+                        update_zone_text(zone, msg);
                         console.log(`call to ${url} result = ${result}`);
                     }
                 }
@@ -48,6 +43,13 @@ $(document).ready(function(){
     get_schedules();
 });
 
+function update_zone_text(zone, msg) {
+    let selector = $(`#zone${zone}`);
+    selector.append(msg);
+    selector = $("#debug");
+    selector.append(msg);
+}
+
 function set_to_running(zone) {
     // console.log(`typeof(zone) = ${typeof(zone)}`);
     if (zone !== '0') {
@@ -63,12 +65,19 @@ function get_schedules() {
         }, dataType: "json"});
 }
 
-function set_schedules(schedules) {
-    console.log(`Array.isArray(schedules) = ${Array.isArray(schedules)}`);
-    if (Array.isArray(schedules)) {
-        for (zone of schedules) {
-            for (item in zone) {
-                console.log(`zone[${item}] = ${zone[item]}`);
+function set_schedules(data) {
+    for (let zones of data) {
+        for (let item in zones) {
+            console.log(`Array.isArray(zones[${item}]) = ${Array.isArray(zones[item])}`);
+            console.log(`zones[${item}] = ${zones[item]}`);
+            for (let schedule of zones[item]) {
+                console.log(`item[schedule] = ${item[schedule]}`);
+                let msg = '';
+                for (let [k, v] of Object.entries(schedule)) {
+                    console.log(`k, v = ${k}, ${v}`);
+                    msg = msg.concat(`${k}=${v} `)
+                }
+                update_zone_text(item, msg);
             }
         }
     }
