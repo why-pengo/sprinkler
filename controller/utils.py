@@ -19,7 +19,7 @@ def gpio_setup(zone_map):
         if 'wiringpi' in sys.modules:
             logger.debug(f"found wiringpi in sys.modules.")
             wiringpi.wiringPiSetupGpio()  # For GPIO pin numbering
-            for i in range(1, len(zone_map) + 1):
+            for i in range(1, len(zone_map)):
                 wiringpi.pinMode(zone_map[i].bcm, 1)  # Set pin to 1 ( OUTPUT )
                 wiringpi.digitalWrite(zone_map[i].bcm, 1)  # Write (1 = HIGH/OFF, 0 = LOW/ON ) to pin
                 value = wiringpi.digitalRead(zone_map[i].bcm)  # Read bcm
