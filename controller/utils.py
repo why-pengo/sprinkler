@@ -221,6 +221,7 @@ def whats_running():
     logger.debug("check if any zone is currently running")
     value = 1  # (1 = HIGH/OFF, 0 = LOW/ON )
     for zone in ZoneMap.objects.all():
+        logger.debug(f"zone = {zone.num} pin = {zone.pin}")
         if 'wiringpi' in sys.modules:
             value = wiringpi.digitalRead(zone.pin)  # Read pin
         else:
@@ -228,12 +229,12 @@ def whats_running():
 
         if value == 0:
             on_off = "On"
-            logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
+            logger.debug(f"{zone.num} is {on_off}")
             return zone.num
         else:
             on_off = "Off"
 
-        logger.debug("zone = ", zone.num, ", pin = ", zone.pin, " is ", on_off)
+        logger.debug(f"{zone.num} is {on_off}")
 
         return 0
 
