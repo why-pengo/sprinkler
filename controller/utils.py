@@ -219,10 +219,12 @@ def whats_running():
         import wiringpi
 
     logger.debug("check if any zone is currently running")
-    value = 1  # (1 = HIGH/OFF, 0 = LOW/ON )
+    # (1 = HIGH/OFF, 0 = LOW/ON )
     for zone in ZoneMap.objects.all():
         logger.debug(f"zone = {zone.num} pin = {zone.pin}")
         if 'wiringpi' in sys.modules:
+            wiringpi.wiringPiSetupGpio()  # For GPIO pin numbering
+            wiringpi.pinMode(zone.bcm, 1)  # Set pin to 1 ( OUTPUT )
             value = wiringpi.digitalRead(zone.pin)  # Read pin
             logger.debug(f"digitalRead returned = {value}")
         else:
@@ -230,12 +232,12 @@ def whats_running():
 
         if value == 0:
             on_off = "On"
-            logger.debug(f"{zone.num} is {on_off}")
+            logger.debug(f"zone {zone.num} is {on_off}")
             return zone.num
         else:
             on_off = "Off"
 
-        logger.debug(f"{zone.num} is {on_off}")
+        logger.debug(f"zone {zone.num} is {on_off}")
 
         return 0
 
