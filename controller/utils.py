@@ -224,6 +224,7 @@ def whats_running():
         logger.debug(f"zone = {zone.num} pin = {zone.pin}")
         if 'wiringpi' in sys.modules:
             value = wiringpi.digitalRead(zone.pin)  # Read pin
+            logger.debug(f"digitalRead returned = {value}")
         else:
             value = 1
 
