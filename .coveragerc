@@ -1,0 +1,8 @@
+[run]
+omit =
+    # omit all tests
+    *tests*
+    # don't worry about the manage.py file from Django
+    manage.py
+    # omit all of the apps.py for django apps
+    */apps.py

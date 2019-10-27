@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
 <div class="container-fluid">
     <div class="col-sm bg-white rounded-lg mr-5 mt-3 p-2 table-responsive zonebox">
         <a class="btn btn-primary m-1" href="/schedule/0" role="button">New</a>
-        <table class="table">
+        <table id="tbl_schedules" class="table">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Zone</th>
@@ -37,6 +40,7 @@
         $(".clickable-row").click(function() {
             window.location = $(this).data('url');
         });
+        $('#tbl_schedules').DataTable();
     });
 </script>
 
