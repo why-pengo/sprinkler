@@ -44,9 +44,16 @@
             <div class="form-group">
                 {{ form.active.errors }}
                 <label class="control-label" for="id_active">Active</label>
-                <label class="checkbox-inline" for="id_active">
+                <div class="checkbox-inline">
                     <input type="checkbox" name="active" required id="id_active">
-                </label>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.run_once.errors }}
+                <label class="control-label" for="id_run_once">Run Once</label>
+                <div class="checkbox-inline">
+                    <input type="checkbox" name="run_once" required id="id_run_once">
+                </div>
             </div>
             <input class="button btn-primary" name="sub_type" type="submit" value="Save">
             <input class="button btn-primary" name="sub_type" type="submit" value="Delete">
@@ -61,6 +68,7 @@
     let start = "{{ start }}";
     let end = "{{ end }}";
     let active = "{{ active }}";
+    let run_once = "{{ run_once }}";
     let zone = "{{ zone }}";
 </script>
 <script src="{{ static('/js/schedule.js') }}"></script>

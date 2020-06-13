@@ -25,7 +25,8 @@ class ScheduleView(View):
         dow = str()
         start = str()
         end = str()
-        active = False
+        active = True
+        run_once = False
         zone = str()
         if zs_id == '0':
             initial = {
@@ -42,6 +43,7 @@ class ScheduleView(View):
             start = zone_obj.start
             end = zone_obj.end
             active = zone_obj.active
+            run_once = zone_obj.run_once
             zone = zone_obj.zone
             form = self.form_class()
         return render(request, self.template_name, {
@@ -51,6 +53,7 @@ class ScheduleView(View):
             'start': start,
             'end': end,
             'active': active,
+            'run_once': run_once,
             'zone': zone,
         })
 
@@ -69,17 +72,20 @@ class ScheduleView(View):
                 end = request.POST['end']
                 zone = request.POST['zone']
                 active = request.POST['active']
+                run_once = request.POST['run_once']
                 logger.debug(f"dow = {dow}")
                 logger.debug(f"start = {start}")
                 logger.debug(f"end = {end}")
                 logger.debug(f"zone = {zone}")
                 logger.debug(f"active = {active}")
+                logger.debug(f"run_once = {run_once}")
                 zone_obj = ZoneSchedule()
                 zone_obj.dow = dow
                 zone_obj.start = start
                 zone_obj.end = end
                 zone_obj.zone = zone
                 zone_obj.active = True if active == 'on' else False
+                zone_obj.run_once = True if run_once == 'on' else False
                 zone_obj.save()
                 utils.save_crontab_entry(str(zone_obj.id))
             if sub_type == 'Delete':

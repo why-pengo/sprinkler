@@ -193,6 +193,8 @@ def save_crontab_entry(zs_id):
     for line in cron.lines:
         logger.debug(f"cron entry: {line}")
 
+    # TODO: if run_once is True delete job after is stops.
+
 
 def delete_crontab_entry(zs_id):
     zone_obj = ZoneSchedule.objects.get(pk=zs_id)

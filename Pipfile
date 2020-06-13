@@ -20,4 +20,4 @@ djangorestframework = "*"
 requests = "*"
 loguru = "*"
 python-crontab = "*"
-
+mypy = "*"

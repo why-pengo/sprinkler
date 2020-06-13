@@ -20,7 +20,8 @@ class ZoneSchedule(models.Model):
     start = models.TimeField()
     end = models.TimeField()
     zone = models.IntegerField()
-    active = models.BooleanField()
+    active = models.BooleanField(default=True)
+    run_once = models.BooleanField(default=False)
     crontab = models.CharField(max_length=50)
     cron_key = models.CharField(max_length=15)
 

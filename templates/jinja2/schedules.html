@@ -15,6 +15,7 @@
                 <th scope="col">Start time</th>
                 <th scope="col">End time</th>
                 <th scope="col">Active</th>
+                <th scope="col">Run Once</th>
             </tr>
             </thead>
             <tbody>
@@ -25,6 +26,7 @@
                     <td>{{ schedule.start }}</td>
                     <td>{{ schedule.end }}</td>
                     <td>{{ schedule.active }}</td>
+                    <td>{{ schedule.run_once }}</td>
                 </tr>
             {% endfor %}
             </tbody>
