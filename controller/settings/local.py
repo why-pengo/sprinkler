@@ -5,7 +5,9 @@
 import os
 import environ
 root = environ.Path(__file__) - 3  # three folders back (/a/b/c/ - 3 = /)
-env = environ.Env(DEBUG=(bool, False),)  # set default values and casting
+env = environ.Env(  # set default values and casting
+    DEBUG=(bool, False),
+)
 environ.Env.read_env()  # reading .env file
 
 DEBUG = env('DEBUG')  # False if not in os.environ
@@ -75,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'controller.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -85,7 +86,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
