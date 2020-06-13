@@ -15,7 +15,7 @@ TEMPLATE_DEBUG = DEBUG
 BASE_DIR = root()  # os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*m3azlg-4-xe*&xbvp+*k5jo-7go%1$5qh+ebry_s9^vnz46%h'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 ALLOWED_HOSTS = ['*']
 
