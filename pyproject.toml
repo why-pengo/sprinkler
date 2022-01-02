@@ -15,7 +15,7 @@ requests = "^2.26.0"
 loguru = "^0.5.3"
 python-crontab = "^2.6.0"
 mypy = "^0.930"
-wiringpi = {version = "*", markers = "sys_platform == 'armv7l'"}
+gpiozero = "^1.6.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
