@@ -1,6 +1,6 @@
 import sys
 import platform
-import controller.settings.local as settings
+import controller.settings as settings
 from scheduler.models import ZoneMap, ZoneSchedule
 from datetime import datetime
 from loguru import logger
