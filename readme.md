@@ -36,11 +36,15 @@ Would have been much harder and taken a lot longer without these resources.
  
 ## poetry
 
-*   sudo apt install build-essential libssl-dev libffi-dev python3-dev cargo
-*   pip install --user poetry
-*   poetry install # to setup virutalenv with requirements set in Pipfile
-*   poetry shell # to start working on project
-*   exit # when you are done
+* sudo apt install build-essential libssl-dev libffi-dev python3-dev cargo
+* pip install --user poetry
+* poetry install # to setup virutalenv with requirements set in Pipfile
+* poetry shell # to start working on project
+* exit # when you are done
+
+
+## Warning about PinFactoryFallback
+https://gpiozero.readthedocs.io/en/stable/faq.html#why-do-i-get-pinfactoryfallback-warnings-when-i-import-gpiozero
 
 ## Nginx 
 

@@ -14,6 +14,8 @@ def gpio_setup(zone_map):
 
     logger.debug(f"platform.machine() == {platform.machine()}")
     if platform.machine() == 'armv7l':
+        import warnings
+        warnings.simplefilter('ignore')
         import gpiozero
 
         if 'gpiozero' in sys.modules:
@@ -127,6 +129,8 @@ def relay_call(bcm, call):
     0 = On, 1 = Off
     """
     if platform.machine() == 'armv7l':
+        import warnings
+        warnings.simplefilter('ignore')
         import gpiozero
 
     zone = ZoneMap.objects.get(bcm__exact=int(bcm))
@@ -215,6 +219,8 @@ def delete_crontab_entry(zs_id):
 
 def whats_running():
     if platform.machine() == 'armv7l':
+        import warnings
+        warnings.simplefilter('ignore')
         import gpiozero
 
     logger.debug("check if any zone is currently running")
