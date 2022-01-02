@@ -23,7 +23,7 @@ def gpio_setup(zone_map):
             for i in range(1, len(zone_map)):
                 # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
                 relay = gpiozero.DigitalOutputDevice(pin=zone_map[i].bcm, active_high=False)
-                value = relay.value()  # should be off by default
+                value = relay.value  # should be off by default
                 logger.debug(f"bcm value = {value}")
                 logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
         else:
@@ -140,7 +140,7 @@ def relay_call(bcm, call):
         # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
         relay = gpiozero.DigitalOutputDevice(pin=bcm, active_high=False)
         relay.on()
-        value = relay.value()
+        value = relay.value
         logger.debug(f"value after = {value}")
 
 
