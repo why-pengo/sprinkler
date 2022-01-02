@@ -1,9 +1,6 @@
-# https://pipenv.readthedocs.io/en/latest/advanced/#automatic-loading-of-env
-# PIPENV_DOTENV_LOCATION=/path/to/.env pipenv shell
-# Let's see if we can get django-environ and pipenv to play together
-
 import os
 import environ
+
 root = environ.Path(__file__) - 3  # three folders back (/a/b/c/ - 3 = /)
 env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
@@ -77,18 +74,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'controller.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -106,8 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 # TIME_ZONE = 'UTC'
@@ -118,7 +107,6 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = 'public/'
 # STATIC_URL = '/static/'
 STATIC_URL = '/public/'
@@ -126,7 +114,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-# https://docs.djangoproject.com/en/2.1/topics/http/sessions/#browser-length-vs-persistent-sessions
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 28800  # 8h in seconds
-# https://docs.djangoproject.com/en/2.1/ref/django-admin/#django-admin-clearsessions
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
