@@ -1,6 +1,6 @@
 import sys
 import platform
-import controller.settings.local as settings
+import controller.settings as settings
 from scheduler.models import ZoneMap, ZoneSchedule
 from datetime import datetime
 from loguru import logger
@@ -14,6 +14,8 @@ def gpio_setup(zone_map):
 
     logger.debug(f"platform.machine() == {platform.machine()}")
     if platform.machine() == 'armv7l':
+        import warnings
+        warnings.simplefilter('ignore')
         import gpiozero
 
         if 'gpiozero' in sys.modules:
@@ -21,7 +23,7 @@ def gpio_setup(zone_map):
             for i in range(1, len(zone_map)):
                 # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
                 relay = gpiozero.DigitalOutputDevice(pin=zone_map[i].bcm, active_high=False)
-                value = relay.value()  # should be off by default
+                value = relay.value  # should be off by default
                 logger.debug(f"bcm value = {value}")
                 logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
         else:
@@ -127,17 +129,19 @@ def relay_call(bcm, call):
     0 = On, 1 = Off
     """
     if platform.machine() == 'armv7l':
+        # import warnings
+        # warnings.simplefilter('ignore')
         import gpiozero
 
-    zone = ZoneMap.objects.get(bcm__exact=int(bcm))
-    timestamp = datetime.now()
-    logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
-    if 'gpiozero' in sys.modules:
-        # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-        relay = gpiozero.DigitalOutputDevice(pin=bcm, active_high=False)
-        relay.on()
-        value = relay.value()
-        logger.debug(f"value after = {value}")
+        zone = ZoneMap.objects.get(bcm__exact=int(bcm))
+        timestamp = datetime.now()
+        logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
+        if 'gpiozero' in sys.modules:
+            # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
+            relay = gpiozero.DigitalOutputDevice(pin=bcm, active_high=False)
+            relay.on()
+            value = relay.value
+            logger.debug(f"value after = {value}")
 
 
 def read_crontab():
@@ -190,7 +194,7 @@ def save_crontab_entry(zs_id):
     for line in cron.lines:
         logger.debug(f"cron entry: {line}")
 
-    # TODO: if run_once is True delete job after is stops.
+    # TODO: if run_once is True delete job after it stops.
 
 
 def delete_crontab_entry(zs_id):
@@ -215,6 +219,8 @@ def delete_crontab_entry(zs_id):
 
 def whats_running():
     if platform.machine() == 'armv7l':
+        import warnings
+        warnings.simplefilter('ignore')
         import gpiozero
 
     logger.debug("check if any zone is currently running")

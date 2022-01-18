@@ -5,9 +5,12 @@ $(document).ready(function(){
         if (checked === false) {
             const zone = this.value;
             const url = `/zone_off/${zone}`;
+            const csrftoken = getCookie('csrftoken');
             $.ajax(
                 {
-                    url: url, success: function(result){
+                    url: url,
+                    headers: {'X-CSRFToken': csrftoken},
+                    success: function(result){
                         // let msg = `zoneOff = ${result.zoneOff}, timestamp = ${result.timestamp}\n`;
                         let msg = `zoneOff ${result.timestamp}`;
                         update_zone_text(zone, msg);
@@ -19,9 +22,12 @@ $(document).ready(function(){
             $('input:checkbox').not(this).prop('checked', false);
             const zone = this.value;
             const url = `/zone_on/${zone}`;
+            const csrftoken = getCookie('csrftoken');
             $.ajax(
                 {
-                    url: url, success: function(result){
+                    url: url,
+                    headers: {'X-CSRFToken': csrftoken},
+                    success: function(result){
                         // let msg = `zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}\n`;
                         let msg = `zoneOn ${result.timestamp}`;
                         update_zone_text(zone, msg);
@@ -36,7 +42,11 @@ $(document).ready(function(){
     set_to_running(running)
 
     setInterval(function(){
-        $.ajax({ url: "/running", success: function(data){
+        const csrftoken = getCookie('csrftoken');
+        $.ajax({
+            url: "/running",
+            headers: {'X-CSRFToken': csrftoken},
+            success: function(data){
             // console.log(`running returned: ${data}`);
             set_to_running(data)
         }, dataType: "json"});
@@ -61,7 +71,11 @@ function set_to_running(zone) {
 }
 
 function get_schedules() {
-    $.ajax({ url: "/list_jobs", success: function(data){
+    const csrftoken = getCookie('csrftoken');
+    $.ajax({
+        url: "/list_jobs",
+        headers: {'X-CSRFToken': csrftoken},
+        success: function(data){
             // console.log(`list_jobs returned: ${data}`);
             set_schedules(data);
         }, dataType: "json"});
@@ -84,4 +98,20 @@ function set_schedules(data) {
             }
         }
     }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

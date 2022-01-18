@@ -1,7 +1,7 @@
 import os
 import environ
 
-root = environ.Path(__file__) - 3  # three folders back (/a/b/c/ - 3 = /)
+root = environ.Path(__file__) - 2  # two folders back (/a/b/ - 2 = /)
 env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
 )
