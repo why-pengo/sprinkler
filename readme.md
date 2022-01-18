@@ -1,5 +1,7 @@
 # Raspberry Pi Sprinkler ][
 
+[See the documentation on building the hardware](https://why-pengo.github.io/sprinkler/)
+
 ## Details
 
 * OS: Raspbian GNU/Linux 11 (bullseye) armv7l
