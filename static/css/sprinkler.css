@@ -93,5 +93,6 @@ body {
 .zone_text {
     font-family: digital-led-font;
     font-size: small;
-    max-height: 125px;
+    /*max-height: 125px;*/
+    min-height: 175px;
 }
