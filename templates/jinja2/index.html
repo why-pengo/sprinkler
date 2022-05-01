@@ -11,7 +11,7 @@
                         <form>
                             <div class="form-group">
                                 <label class="switch">
-                                    <input type="checkbox" name="zone" value="{{ i }}">
+                                    <input onclick="switchClicked(this)" type="checkbox" id="zone{{ i }}" name="zone" value="{{ i }}">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -23,10 +23,6 @@
             </div>
             {% endfor %}
         </div>
-    </div>
-    <div class="row bg-light rounded--3">
-    <pre id="debug" style="width: 100%; margin-bottom: 5px !important;"
-         class="overflow-auto pb-0"></pre>
     </div>
 
     <script>
