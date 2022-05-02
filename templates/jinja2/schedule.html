@@ -7,7 +7,7 @@
 #}
 
 <div class="container center-block" style="width: 540px;">
-    <div class="bg-white rounded-lg m-3 p-3 zonebox">
+    <div class="bg-white rounded-3 m-3 p-3 zonebox">
         <form action="/schedule" method="post">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <div class="form-group">
@@ -52,7 +52,7 @@
                 {{ form.run_once.errors }}
                 <label class="control-label" for="id_run_once">Run Once</label>
                 <div class="checkbox-inline">
-                    <input type="checkbox" name="run_once" required id="id_run_once">
+                    <input type="checkbox" name="run_once" id="id_run_once">
                 </div>
             </div>
             <input class="button btn-primary" name="sub_type" type="submit" value="Save">
