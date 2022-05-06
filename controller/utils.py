@@ -22,7 +22,8 @@ def gpio_setup(zone_map):
             logger.debug(f"found gpiozero in sys.modules.")
             for i in range(1, len(zone_map)):
                 # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-                relay = gpiozero.DigitalOutputDevice(pin=zone_map[i].bcm, active_high=False)
+                # relay = gpiozero.DigitalOutputDevice(pin=zone_map[i].bcm, active_high=False)
+                relay = gpiozero.OutputDevice(pin=zone_map[i].bcm, active_high=False)
                 value = relay.value  # should be off by default
                 logger.debug(f"bcm value = {value}")
                 logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
@@ -138,7 +139,8 @@ def relay_call(bcm, call):
         logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
         if 'gpiozero' in sys.modules:
             # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-            relay = gpiozero.DigitalOutputDevice(pin=bcm, active_high=False)
+            # relay = gpiozero.DigitalOutputDevice(pin=bcm, active_high=False)
+            relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
             relay.on()
             value = relay.value
             logger.debug(f"value after = {value}")
@@ -228,7 +230,8 @@ def whats_running():
     for zone in ZoneMap.objects.all():
         logger.debug(f"zone = {zone.num} pin = {zone.pin} bcm = {zone.bcm}")
         if 'gpiozero' in sys.modules:
-            relay = gpiozero.DigitalOutputDevice(pin=zone.bcm, active_high=False)
+            # relay = gpiozero.DigitalOutputDevice(pin=zone.bcm, active_high=False)
+            relay = gpiozero.OutputDevice(pin=zone.bcm, active_high=False)
             value = relay.value
             logger.debug(f"digitalRead returned = {value}")
         else:
