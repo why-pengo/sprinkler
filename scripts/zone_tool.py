@@ -88,6 +88,8 @@ def cli():
 
 cli.add_command(read_zones)
 cli.add_command(test_zone)
+cli.add_command(zone_on)
+cli.add_command(zone_off)
 
 if __name__ == '__main__':
     cli()
