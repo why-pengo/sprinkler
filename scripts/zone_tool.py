@@ -27,7 +27,7 @@ def zone_on(zone):
     if zone:
         bcm = zones[int(zone)]
         # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-        relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
+        relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
         logger.debug(f"bcm value = {relay.value}")
         logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
 
@@ -42,7 +42,7 @@ def zone_off(zone):
     if zone:
         bcm = zones[int(zone)]
         # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-        relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
+        relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
         logger.debug(f"bcm value = {relay.value}")
         logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
 
@@ -56,7 +56,7 @@ def test_zone(zone):
     """Test by running a given zone for 40 seconds"""
     bcm = zones[int(zone)]
     # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-    relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
+    relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
     logger.debug(f"bcm value = {relay.value}")
     logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
 
@@ -76,7 +76,7 @@ def read_zones():
     table.add_column("On[1]/Off[0]", justify="right", style="green")
     for zone in zones:
         bcm = zones[zone]
-        relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
+        relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
         table.add_row(str(zone), str(bcm), str(relay.value))
 
     console = Console()
