@@ -46,7 +46,7 @@ def read_zones():
     for zone in zones:
         bcm = zones[zone]
         relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
-        table.add_row(zone, bcm, relay.value)
+        table.add_row(str(zone), str(bcm), str(relay.value))
 
     console = Console()
     console.print(table)
