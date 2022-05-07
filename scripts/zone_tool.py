@@ -21,6 +21,34 @@ zones[8] = 4   # 7   gpio7
 
 
 @click.command()
+@click.option("--zone", default=2, help="Zone to turn on.")
+def zone_on(zone):
+    """Turn on a given zone"""
+    bcm = zones[zone]
+    # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
+    relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
+    logger.debug(f"bcm value = {relay.value}")
+    logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
+
+    relay.on()
+    logger.debug(f"bcm value = {relay.value}")
+
+
+@click.command()
+@click.option("--zone", default=2, help="Zone to turn off.")
+def zone_off(zone):
+    """Turn off a given zone"""
+    bcm = zones[zone]
+    # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
+    relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
+    logger.debug(f"bcm value = {relay.value}")
+    logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
+
+    relay.off()
+    logger.debug(f"bcm value = {relay.value}")
+
+
+@click.command()
 @click.option("--zone", default=2, help="Zone to test.")
 def test_zone(zone):
     """Test by running a given zone for 40 seconds"""
@@ -37,12 +65,13 @@ def test_zone(zone):
     logger.debug(f"bcm value = {relay.value}")
 
 
+@click.command()
 def read_zones():
     """Read the current state of the zones and display"""
     table = Table(title="Zone status")
     table.add_column("Zone", justify="right", style="cyan", no_wrap=True)
     table.add_column("BCM", style="magenta")
-    table.add_column("On/Off", justify="right", style="green")
+    table.add_column("On[1]/Off[0]", justify="right", style="green")
     for zone in zones:
         bcm = zones[zone]
         relay = gpiozero.OutputDevice(pin=bcm, active_high=False)
@@ -52,5 +81,13 @@ def read_zones():
     console.print(table)
 
 
+@click.group(help="Zone tools")
+def cli():
+    pass
+
+
+cli.add_command(read_zones)
+cli.add_command(test_zone)
+
 if __name__ == '__main__':
-    read_zones()
+    cli()
