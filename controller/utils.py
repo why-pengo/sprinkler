@@ -8,10 +8,8 @@ from crontab import CronTab
 
 
 def gpio_setup(zone_map):
-    """set gpio0-7 to output mode and write 0/LOW/OFF
-    so we are in a known state at start up"""
+    """For gpio0-7 write 0/LOW/OFF so we are in a known state at start up"""
     logger.debug(f"entering...")
-
     logger.debug(f"platform.machine() == {platform.machine()}")
     if platform.machine() == 'armv7l':
         import warnings
