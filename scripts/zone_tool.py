@@ -3,7 +3,7 @@ import gpiozero
 import click
 import warnings
 from loguru import logger
-from rich import Console
+from rich.console import Console
 from rich.table import Table
 
 warnings.simplefilter('ignore')
