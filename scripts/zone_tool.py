@@ -1,5 +1,6 @@
 import time
 import gpiozero
+import gpiozero.pins.rpigpio
 import click
 import warnings
 from loguru import logger
@@ -17,7 +18,7 @@ zones[4] = 22  # 15  gpio3
 zones[5] = 23  # 16  gpio4
 zones[6] = 24  # 18  gpio5
 zones[7] = 25  # 22  gpio6
-zones[8] = 4   # 7   gpio7
+zones[8] = 4  # 7   gpio7
 
 
 @click.command()
@@ -27,7 +28,12 @@ def zone_on(zone):
     if zone:
         bcm = zones[int(zone)]
         # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-        relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
+        relay = gpiozero.OutputDevice(
+            pin=bcm,
+            initial_value=None,
+            pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
+            active_high=False
+        )
         logger.debug(f"bcm value = {relay.value}")
         logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
 
@@ -42,7 +48,12 @@ def zone_off(zone):
     if zone:
         bcm = zones[int(zone)]
         # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-        relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
+        relay = gpiozero.OutputDevice(
+            pin=bcm,
+            initial_value=None,
+            pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
+            active_high=False
+        )
         logger.debug(f"bcm value = {relay.value}")
         logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
 
@@ -56,7 +67,12 @@ def test_zone(zone):
     """Test by running a given zone for 40 seconds"""
     bcm = zones[int(zone)]
     # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
-    relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
+    relay = gpiozero.OutputDevice(
+        pin=bcm,
+        initial_value=None,
+        pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
+        active_high=False
+    )
     logger.debug(f"bcm value = {relay.value}")
     logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
 
@@ -76,11 +92,22 @@ def read_zones():
     table.add_column("On[1]/Off[0]", justify="right", style="green")
     for zone in zones:
         bcm = zones[zone]
-        relay = gpiozero.OutputDevice(pin=bcm, initial_value=None, active_high=False)
+        relay = gpiozero.OutputDevice(
+            pin=bcm,
+            initial_value=None,
+            pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
+            active_high=False
+        )
         table.add_row(str(zone), str(bcm), str(relay.value))
 
     console = Console()
     console.print(table)
+
+
+def close(self):
+    """This function is a workaround for gpiozero's cleanup on close resetting pins state"""
+    # https://github.com/gpiozero/gpiozero/issues/707
+    pass
 
 
 @click.group(help="Zone tools")
@@ -88,6 +115,7 @@ def cli():
     pass
 
 
+gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 cli.add_command(read_zones)
 cli.add_command(test_zone)
 cli.add_command(zone_on)
