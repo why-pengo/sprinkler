@@ -240,6 +240,8 @@ def whats_running():
                 active_high=False
             )
             value = relay.value
+            logger.debug(f"active_high = {relay.active_high}")
+            logger.debug(f"is_active = {relay.is_active}")
             logger.debug(f"digitalRead returned = {value}")
 
         if value == 0:
