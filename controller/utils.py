@@ -24,9 +24,11 @@ def gpio_setup(zone_map):
                     pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                     active_high=False
                 )
-                value = relay.value  # should be off by default
+                value = relay.value
                 logger.debug(f"bcm value = {value}")
+                relay.off()
                 logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
+                logger.debug(f"bcm value = {value}")
         else:
             logger.debug(f"no gpiozero")
 
@@ -230,6 +232,7 @@ def whats_running():
     # (1 = HIGH/OFF, 0 = LOW/ON )
     for zone in ZoneMap.objects.all():
         logger.debug(f"zone = {zone.num} pin = {zone.pin} bcm = {zone.bcm}")
+        value = 1
         if 'gpiozero' in sys.modules:
             relay = gpiozero.OutputDevice(
                 pin=zone.bcm,
@@ -238,8 +241,6 @@ def whats_running():
             )
             value = relay.value
             logger.debug(f"digitalRead returned = {value}")
-        else:
-            value = 1
 
         if value == 0:
             on_off = "On"
