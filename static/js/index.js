@@ -1,87 +1,59 @@
-$(document).ready(function(){
-    $('input:checkbox').click(function() {
-        let checked = $(this).prop('checked');
-        console.log(`zone = ${this.value}, checked = ${checked}`);
-        if (checked === false) {
-            const zone = this.value;
-            const url = `/zone_off/${zone}`;
-            const csrftoken = getCookie('csrftoken');
-            $.ajax(
-                {
-                    url: url,
-                    headers: {'X-CSRFToken': csrftoken},
-                    success: function(result){
-                        // let msg = `zoneOff = ${result.zoneOff}, timestamp = ${result.timestamp}\n`;
-                        let msg = `zoneOff ${result.timestamp}`;
-                        update_zone_text(zone, msg);
-                        console.log(`call to ${url} result = ${result}`);
-                    }
-                }
-            );
-        } else {
-            $('input:checkbox').not(this).prop('checked', false);
-            const zone = this.value;
-            const url = `/zone_on/${zone}`;
-            const csrftoken = getCookie('csrftoken');
-            $.ajax(
-                {
-                    url: url,
-                    headers: {'X-CSRFToken': csrftoken},
-                    success: function(result){
-                        // let msg = `zoneOn = ${result.zoneOn}, timestamp = ${result.timestamp}\n`;
-                        let msg = `zoneOn ${result.timestamp}`;
-                        update_zone_text(zone, msg);
-                        console.log(`call to ${url} result = ${result}`);
-                    }
-                }
-            );
-        }
-    });
-
-    console.log(`running: ${running}`)
-    set_to_running(running)
-
-    setInterval(function(){
-        const csrftoken = getCookie('csrftoken');
-        $.ajax({
-            url: "/running",
-            headers: {'X-CSRFToken': csrftoken},
-            success: function(data){
-            // console.log(`running returned: ${data}`);
-            set_to_running(data)
-        }, dataType: "json"});
-    }, 30000);
-
-    get_schedules();
-});
-
-function update_zone_text(zone, msg) {
-    let selector = $(`#zone${zone}`);
-    selector.append(`${msg}<br />`);
-    selector = $("#debug");
-    selector.append(`${msg}<br />`);
+function ready() {
+    getRunning();
+    setInterval(getRunning, 30000);
+    getSchedules();
 }
 
-function set_to_running(zone) {
-    // console.log(`typeof(zone) = ${typeof(zone)}`);
-    if (zone !== '0') {
-        console.log(`set zone ${zone} to running.`);
-        $(":checkbox[value=" + zone + "]").prop("checked","true");
+function getRunning() {
+    const csrftoken = getCookie('csrftoken');
+    fetch("/running", {headers: {'X-CSRFToken': csrftoken}, })
+        .then(data => data.json())
+        .then(rv => setToRunning(rv))
+        .catch(err => console.log(err))
+}
+
+function switchClicked(el) {
+    let checked = el.checked;
+    const zone = el.value;
+    const csrftoken = getCookie('csrftoken');
+    console.log(`zone = ${zone}, checked = ${checked}`);
+    if (checked === false) {
+        const url = `/zone_off/${zone}`;
+        fetch(url, { headers: {'X-CSRFToken': csrftoken}, })
+            .then(rv => `zoneOff ${rv.timestamp}`)
+            .then(msg => updateZoneText(zone, msg))
+            .catch(err => console.log(err))
+    } else {
+        const url = `/zone_on/${zone}`;
+        fetch(url, { headers: {'X-CSRFToken': csrftoken}, })
+            .then(rv => `zoneOn ${rv.timestamp}`)
+            .then(msg => updateZoneText(zone, msg))
+            .catch(err => console.log(err))
     }
 }
 
-function get_schedules() {
-    const csrftoken = getCookie('csrftoken');
-    $.ajax({
-        url: "/list_jobs",
-        headers: {'X-CSRFToken': csrftoken},
-        success: function(data){
-            // console.log(`list_jobs returned: ${data}`);
-            set_schedules(data);
-        }, dataType: "json"});
+function updateZoneText(zone, msg) {
+    document.getElementById(`zone${zone}`).append(`${msg}<br />`);
 }
 
-function set_schedules(data) {
+function setToRunning(zone) {
+    console.log(`called  with ${zone}.`);
+    if (zone !== 0) {
+        console.log(`set zone ${zone} to running.`);
+        document.getElementById(`zone${ zone }`).checked = true;
+    }
+}
+
+function getSchedules() {
+    const csrftoken = getCookie('csrftoken');
+    fetch("/list_jobs", {headers: {'X-CSRFToken': csrftoken}, })
+        .then(data => data.json())
+        .then(json => setSchedules(json))
+        .catch(err => console.log(err)
+    )
+}
+
+function setSchedules(data) {
     for (let zones of data) {
         for (let item in zones) {
             console.log(`Array.isArray(zones[${item}]) = ${Array.isArray(zones[item])}`);
@@ -94,7 +66,7 @@ function set_schedules(data) {
                     // msg = msg.concat(`${k}=${v} `)
                     msg = msg.concat(`${v} `)
                 }
-                update_zone_text(item, msg);
+                updateZoneText(item, msg);
             }
         }
     }

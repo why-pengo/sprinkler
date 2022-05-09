@@ -13,5 +13,5 @@ class HomeView(View):
     def get(request):
         logger.debug("entering...")
         running = utils.whats_running()
-        return render(request, 'index.html', {'running': running})
+        return render(request, 'index.html', {'zones': range(1, 6)})
 

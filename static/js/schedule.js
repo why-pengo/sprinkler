@@ -1,4 +1,4 @@
-$(document).ready(function(){
+function ready() {
     console.log(`id = ${id}`);
     console.log(`dow = ${dow}`);
     console.log(`start = ${start}`);
@@ -7,14 +7,14 @@ $(document).ready(function(){
     console.log(`run_once = ${run_once}`);
     console.log(`zone = ${zone}`);
 
-    $('#id_dow').val(dow);
-    $('#id_start').val(start);
-    $('#id_end').val(end);
-    $('#id_zone').val(zone);
+    document.getElementById("id_dow").value = dow;
+    document.getElementById("id_start").value = start;
+    document.getElementById("id_end").value = end;
+    document.getElementById("id_zone").value = zone;
     if (active === 'True') {
-        $('#id_active').prop('checked', true);
+        document.getElementById("id_active").checked = true;
     }
     if (run_once === 'True') {
-        $('#id_run_once').prop('checked', true);
+        document.getElementById("id_run_once").checked = true;
     }
-});
+}
