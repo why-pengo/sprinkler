@@ -58,7 +58,6 @@ class ZoneOff(APIView):
         bcm = zone_map.bcm
         logger.debug(f"zone = {zone}")
         logger.debug(f"BCM = {bcm}")
-        # TODO: add timestamp
         utils.relay_call(bcm, 1)
         rv = {
             'zoneOff': f"{zone}",

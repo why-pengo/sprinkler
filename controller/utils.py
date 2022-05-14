@@ -151,7 +151,10 @@ def relay_call(bcm, call):
                 pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                 active_high=False
             )
-            relay.on()
+            if call == 0:
+                relay.on()
+            else:
+                relay.off()
             value = relay.value
             logger.debug(f"value after = {value}")
 
