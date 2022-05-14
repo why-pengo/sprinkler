@@ -19,8 +19,9 @@ def gpio_setup(zone_map):
             logger.debug(f"found gpiozero in sys.modules.")
             for i in range(1, len(zone_map)):
                 # (0 = HIGH/OFF, 1 = LOW/ON ) for our relay board
+                bcm = int(zone_map[i].bcm)
                 relay = gpiozero.OutputDevice(
-                    pin=zone_map[i].bcm,
+                    pin=bcm,
                     pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                     initial_value=None,
                     active_high=False
@@ -136,15 +137,16 @@ def relay_call(bcm, call):
         import gpiozero
         import gpiozero.pins.rpigpio
 
-        zone = ZoneMap.objects.get(bcm__exact=int(bcm))
+        bcm = int(bcm)
+        zone = ZoneMap.objects.get(bcm__exact=bcm)
         timestamp = datetime.now()
         logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
         if 'gpiozero' in sys.modules:
             # (0 = HIGH/OFF, 1 = LOW/ON ) for our relay board
             relay = gpiozero.OutputDevice(
                 pin=bcm,
-                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                 initial_value=None,
+                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                 active_high=False
             )
             relay.on()
@@ -233,10 +235,11 @@ def whats_running():
     logger.debug("check if any zone is currently running")
     # (0 = HIGH/OFF, 1 = LOW/ON )
     for zone in ZoneMap.objects.all():
-        # logger.debug(f"zone = {zone.num} pin = {zone.pin} bcm = {zone.bcm}")
+        bcm = int(zone.bcm)
+        # logger.debug(f"zone = {zone.num} pin = {zone.pin} bcm = {bcm}")
         if 'gpiozero' in sys.modules:
             relay = gpiozero.OutputDevice(
-                pin=zone.bcm,
+                pin=bcm,
                 initial_value=None,
                 pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                 active_high=False
@@ -279,4 +282,9 @@ def close(self):
     """This function is a workaround for gpiozero's cleanup on close resetting pins state"""
     # https://github.com/gpiozero/gpiozero/issues/707
     pass
+
+
+if platform.machine() == 'armv7l':
+    import gpiozero.pins.rpigpio
+    gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
