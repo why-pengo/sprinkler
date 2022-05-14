@@ -14,6 +14,7 @@ def gpio_setup(zone_map):
     if platform.machine() == 'armv7l':
         import gpiozero
         import gpiozero.pins.rpigpio
+        gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
         if 'gpiozero' in sys.modules:
             logger.debug(f"found gpiozero in sys.modules.")
@@ -136,6 +137,7 @@ def relay_call(bcm, call):
     if platform.machine() == 'armv7l':
         import gpiozero
         import gpiozero.pins.rpigpio
+        gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
         bcm = int(bcm)
         zone = ZoneMap.objects.get(bcm__exact=bcm)
@@ -231,6 +233,7 @@ def whats_running():
     if platform.machine() == 'armv7l':
         import gpiozero
         import gpiozero.pins.rpigpio
+        gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
     logger.debug("check if any zone is currently running")
     # (0 = HIGH/OFF, 1 = LOW/ON )
@@ -282,9 +285,3 @@ def close(self):
     """This function is a workaround for gpiozero's cleanup on close resetting pins state"""
     # https://github.com/gpiozero/gpiozero/issues/707
     pass
-
-
-if platform.machine() == 'armv7l':
-    import gpiozero.pins.rpigpio
-    gpiozero.pins.rpigpio.RPiGPIOPin.close = close
-
