@@ -1,6 +1,6 @@
 function ready() {
     getRunning();
-    setInterval(getRunning, 30000);
+    // setInterval(getRunning, 30000);
     getSchedules();
 }
 
