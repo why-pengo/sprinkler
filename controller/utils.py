@@ -237,8 +237,8 @@ def whats_running():
         if 'gpiozero' in sys.modules:
             relay = gpiozero.OutputDevice(
                 pin=zone.bcm,
-                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                 initial_value=None,
+                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                 active_high=False
             )
             value = relay.value
@@ -273,3 +273,10 @@ def dow_to_day(dow):
         return 'Fri'
     if dow == '6':
         return 'Sat'
+
+
+def close(self):
+    """This function is a workaround for gpiozero's cleanup on close resetting pins state"""
+    # https://github.com/gpiozero/gpiozero/issues/707
+    pass
+

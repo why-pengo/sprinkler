@@ -7,8 +7,6 @@ from loguru import logger
 from rich.console import Console
 from rich.table import Table
 
-warnings.simplefilter('ignore')
-
 # zone   = bcm   pin
 zones = dict()
 zones[1] = 17  # 11  gpio0
