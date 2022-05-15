@@ -15,37 +15,18 @@ class ZoneOn(APIView):
     tz = settings.TIME_ZONE
 
     def get(self, request, zone):
-        logger.debug(f"zone = {zone}")
+        zone_map = ZoneMap.objects.get(num__exact=zone)
         timestamp = f"{datetime.now().strftime('%X')} {self.tz}"
-        self.run_for(zone, 5)
+        bcm = zone_map.bcm
+        logger.debug(f"zone = {zone}")
+        logger.debug(f"bcm = {bcm}")
+        utils.relay_call(bcm, 1)
         rv = {
             'zoneOn': f"{zone}",
             'timestamp': f"{timestamp}"
         }
-        # return Response(f'zoneOn: {zone}, timestamp: {timestamp}')
+        logger.info(f"rv = {rv}")
         return Response(rv)
-
-    @staticmethod
-    def run_for(zone, minutes):
-        zone_map = ZoneMap.objects.get(num__exact=zone)
-        bcm = zone_map.bcm
-        logger.debug(f"zone = {zone}")
-        # logger.debug(f"minutes = {minutes}")
-        logger.debug(f"BCM = {bcm}")
-
-        # schedule start
-        # start_time = datetime.now() + timedelta(seconds=20)
-        # logger.debug(f"adding relay_call({bcm}, 0) start now")
-        timestamp = datetime.now().strftime("%X")
-        utils.relay_call(bcm, 0)
-        # scheduler.add_job(relay_call, args=[bcm, 0])
-
-        # schedule stop
-        # stop_time = datetime.now() + timedelta(minutes=minutes)
-        # logger.debug(f"adding relay_call({zone_map.bcm}, 1)")
-        # scheduler.add_job(relay_call, 'date', run_date=stop_time, args=[bcm, 1])
-
-        return Response(f'runFor: {zone}, timestamp: {timestamp}')
 
 
 class ZoneOff(APIView):
@@ -57,13 +38,13 @@ class ZoneOff(APIView):
         timestamp = f"{datetime.now().strftime('%X')} {self.tz}"
         bcm = zone_map.bcm
         logger.debug(f"zone = {zone}")
-        logger.debug(f"BCM = {bcm}")
+        logger.debug(f"bcm = {bcm}")
         utils.relay_call(bcm, 1)
         rv = {
             'zoneOff': f"{zone}",
             'timestamp': f"{timestamp}"
         }
-        # return Response(f'zoneOff: {zone}')
+        logger.info(f"rv = {rv}")
         return Response(rv)
 
 

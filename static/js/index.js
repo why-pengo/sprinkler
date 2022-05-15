@@ -17,23 +17,28 @@ function switchClicked(el) {
     const zone = el.value;
     const csrftoken = getCookie('csrftoken');
     console.log(`zone = ${zone}, checked = ${checked}`);
+    let msg;
     if (checked === false) {
         const url = `/zone_off/${zone}`;
-        fetch(url, { headers: {'X-CSRFToken': csrftoken}, })
-            .then(rv => `zoneOff ${rv.timestamp}`)
-            .then(msg => updateZoneText(zone, msg))
+        fetch(url, {headers: {'X-CSRFToken': csrftoken},})
+            .then(rv => rv.json())
+            .then(data => updateZoneText(zone, `zoneOff ${data.timestamp}`))
             .catch(err => console.log(err))
     } else {
         const url = `/zone_on/${zone}`;
-        fetch(url, { headers: {'X-CSRFToken': csrftoken}, })
-            .then(rv => `zoneOn ${rv.timestamp}`)
-            .then(msg => updateZoneText(zone, msg))
+        fetch(url, {headers: {'X-CSRFToken': csrftoken},})
+            .then(rv => rv.json())
+            .then(data => updateZoneText(zone, `zoneOn ${data.timestamp}`))
             .catch(err => console.log(err))
     }
 }
 
 function updateZoneText(zone, msg) {
-    document.getElementById(`zone${zone}`).append(`${msg}<br />`);
+    console.log(`zone = ${zone}, msg = ${msg}`);
+    let ul = document.getElementById(`zone_${zone}_ul`);
+    let li = document.createElement('li');
+    li.appendChild(document.createTextNode(msg));
+    ul.appendChild(li);
 }
 
 function setToRunning(zone) {
