@@ -67,11 +67,6 @@ body {
     background: url('/public/img/grass.png');
 }
 
-.zonebox {
-    min-width: 300px;
-    padding-right: 5px;
-}
-
 .footer {
     /*position: absolute;*/
     position: fixed;
@@ -90,10 +85,21 @@ body {
     max-height: 200px;
 }
 
+.zonebox {
+    min-width: 320px;
+    padding-right: 5px;
+    overflow: auto;
+}
+
+.zone_ctl {
+    min-width: 120px;
+}
 .zone_text {
     font-family: digital-led-font;
     font-size: small;
     max-height: 175px;
     min-height: 175px;
+    min-width: 180px;
     overflow: auto;
 }
+
