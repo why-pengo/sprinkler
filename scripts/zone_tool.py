@@ -2,7 +2,6 @@ import time
 import gpiozero
 import gpiozero.pins.rpigpio
 import click
-import warnings
 from loguru import logger
 from rich.console import Console
 from rich.table import Table
