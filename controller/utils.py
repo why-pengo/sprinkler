@@ -246,8 +246,7 @@ def whats_running():
             relay = gpiozero.OutputDevice(
                 pin=bcm,
                 initial_value=None,
-                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
-                active_high=False
+                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory()
             )
             value = relay.value
             logger.debug(f"digitalRead returned = {value}")
