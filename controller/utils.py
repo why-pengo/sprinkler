@@ -19,7 +19,7 @@ def gpio_setup(zone_map):
         if 'gpiozero' in sys.modules:
             logger.debug(f"found gpiozero in sys.modules.")
             for i in range(1, len(zone_map)):
-                # (0 = HIGH/OFF, 1 = LOW/ON ) for our relay board
+                # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
                 bcm = int(zone_map[i].bcm)
                 relay = gpiozero.OutputDevice(
                     pin=bcm,
@@ -144,7 +144,7 @@ def relay_call(bcm, call):
         timestamp = datetime.now()
         logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
         if 'gpiozero' in sys.modules:
-            # (0 = HIGH/OFF, 1 = LOW/ON ) for our relay board
+            # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
             relay = gpiozero.OutputDevice(
                 pin=bcm,
                 initial_value=None,
@@ -239,10 +239,9 @@ def whats_running():
         gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
     logger.debug("check if any zone is currently running")
-    # (0 = HIGH/OFF, 1 = LOW/ON )
+    # (1 = HIGH/OFF, 0 = LOW/ON )
     for zone in ZoneMap.objects.all():
         bcm = int(zone.bcm)
-        # logger.debug(f"zone = {zone.num} pin = {zone.pin} bcm = {bcm}")
         if 'gpiozero' in sys.modules:
             relay = gpiozero.OutputDevice(
                 pin=bcm,
@@ -251,11 +250,9 @@ def whats_running():
                 active_high=False
             )
             value = relay.value
-            # logger.debug(f"digitalRead returned = {value}")
-        else:
-            value = 0  # this is for testing without gpiozero loaded
+            logger.debug(f"digitalRead returned = {value}")
 
-        if value == 1:
+        if value == 0:
             on_off = "On"
             logger.debug(f"zone {zone.num} is {on_off}")
             return zone.num

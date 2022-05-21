@@ -20,7 +20,7 @@ class ZoneOn(APIView):
         bcm = zone_map.bcm
         logger.debug(f"zone = {zone}")
         logger.debug(f"bcm = {bcm}")
-        utils.relay_call(bcm, 1)
+        utils.relay_call(bcm, 0)
         rv = {
             'zoneOn': f"{zone}",
             'timestamp': f"{timestamp}"

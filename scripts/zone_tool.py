@@ -86,7 +86,7 @@ def read_zones():
     table = Table(title="Zone status")
     table.add_column("Zone", justify="right", style="cyan", no_wrap=True)
     table.add_column("BCM", style="magenta")
-    table.add_column("On[1]/Off[0]", justify="right", style="green")
+    table.add_column("On[0]/Off[1]", justify="right", style="green")
     for zone in zones:
         bcm = zones[zone]
         relay = gpiozero.OutputDevice(
