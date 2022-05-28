@@ -239,6 +239,7 @@ def whats_running():
         gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
     logger.debug("check if any zone is currently running")
+    value = 1  # local debugging
     # (1 = HIGH/OFF, 0 = LOW/ON )
     for zone in ZoneMap.objects.all():
         bcm = int(zone.bcm)
