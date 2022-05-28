@@ -2,6 +2,7 @@ function ready() {
     getRunning();
     setInterval(getRunning, 30000);
     getSchedules();
+    getWeather();
 }
 
 function getRunning() {
@@ -91,4 +92,31 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+function getWeather() {
+    let url = "https://api.weather.gov/gridpoints/FFC/54,98/forecast/hourly";
+    let userAgent = "(My sprinkler, morgan.jon@icloud.com)";
+    fetch(url, {headers: {"User-Agent": userAgent}})
+        .then(rv => rv.json())
+        .then(data => addWeather(data));
+}
+
+function addWeather(data) {
+    let periods = data["properties"]["periods"];
+    let zone = 1;
+    for (let period of periods.slice(0, 5)) {
+        let el = document.getElementById(`zone_${zone}_weather`);
+        let icon = period["icon"]
+        let image = icon.replace("?size=small", "");
+        let time = new Date(period["startTime"]);
+        let today = `${time.getFullYear()}-${time.getMonth()}-${time.getDate()} ${time.getHours()}:00`;
+        el.innerHTML = `<div class="div-container">
+                          <p class="m-0 p-0">${today}</p>
+                          <p class="m-0 p-0"><img src="${image}"/></p>
+                          <p class="m-0 p-0">${period["temperature"]} ${period["temperatureUnit"]} ${period["shortForecast"]}</p>
+                          <p class="m-0 p-0">${period["windSpeed"]} ${period["windDirection"]}</p>
+                        </div>`;
+        zone = zone + 1;
+    }
 }
