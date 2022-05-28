@@ -65,6 +65,7 @@ class ScheduleView(View):
             sub_type = request.POST['sub_type']
         logger.debug(f"sub_type = {sub_type}")
         if form.is_valid():
+            logger.debug(f"is_valid")
             if sub_type == 'Save':
                 zone = request.POST['zone']
                 dow = request.POST['dow']
@@ -92,6 +93,8 @@ class ScheduleView(View):
                 zs_id = request.POST['zs_id']
                 utils.delete_crontab_entry(zs_id)
             return HttpResponseRedirect('/schedules')
+        else:
+            logger.debug(f"is not valid")
 
         return render(request, self.template_name, {'form': form})
 
