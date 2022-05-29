@@ -1,6 +1,7 @@
 #!/bin/bash
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
+export PATH=/home/pi/.local/bin:/home/pi/.local/bin:/usr/local/bin:/usr/bin:/bin
 
 if [ $# -eq 0 ]
   then
@@ -26,6 +27,6 @@ if [ -z "$3" ]
 fi
 switch=$3
 
-cd "$base" || exit
+cd "$base" 
 
 poetry run python manage.py zoneOnOff "$zone" "$switch"
