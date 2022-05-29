@@ -7,4 +7,4 @@ class SchedulerForm(forms.Form):
     end = forms.TimeField()
     zone = forms.IntegerField()
     active = forms.BooleanField()
-    run_once = forms.BooleanField()
+    # run_once = forms.BooleanField()

@@ -67,26 +67,25 @@ class ScheduleView(View):
         if form.is_valid():
             logger.debug(f"is_valid")
             if sub_type == 'Save':
-                zone = request.POST['zone']
                 dow = request.POST['dow']
                 start = request.POST['start']
                 end = request.POST['end']
                 zone = request.POST['zone']
                 active = request.POST['active']
-                run_once = request.POST['run_once']
+                # run_once = request.POST['run_once']
                 logger.debug(f"dow = {dow}")
                 logger.debug(f"start = {start}")
                 logger.debug(f"end = {end}")
                 logger.debug(f"zone = {zone}")
                 logger.debug(f"active = {active}")
-                logger.debug(f"run_once = {run_once}")
+                # logger.debug(f"run_once = {run_once}")
                 zone_obj = ZoneSchedule()
                 zone_obj.dow = dow
                 zone_obj.start = start
                 zone_obj.end = end
                 zone_obj.zone = zone
                 zone_obj.active = True if active == 'on' else False
-                zone_obj.run_once = True if run_once == 'on' else False
+                # zone_obj.run_once = True if run_once == 'on' else False
                 zone_obj.save()
                 utils.save_crontab_entry(str(zone_obj.id))
             if sub_type == 'Delete':
@@ -94,7 +93,7 @@ class ScheduleView(View):
                 utils.delete_crontab_entry(zs_id)
             return HttpResponseRedirect('/schedules')
         else:
-            logger.debug(f"is not valid")
+            logger.debug(f"{form.errors}")
 
         return render(request, self.template_name, {'form': form})
 
