@@ -56,7 +56,7 @@ class ListJobs(APIView):
         zone_list = ZoneMap.objects.order_by('num')
         job_list = list()
         for zone in zone_list:
-            schedule = ZoneSchedule.objects.filter(zone__exact=zone.num)
+            schedule = ZoneSchedule.objects.filter(zone__exact=zone.num).order_by('dow')
             if len(schedule) > 0:
                 zs_list = list()
                 for s in schedule:

@@ -102,6 +102,6 @@ class SchedulesView(View):
     template_name = 'schedules.html'
 
     def get(self, request):
-        schedules = ZoneSchedule.objects.all()
+        schedules = ZoneSchedule.objects.all().order_by('dow')
         return render(request, self.template_name, {'schedules': schedules})
 
