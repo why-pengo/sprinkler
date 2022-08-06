@@ -1,20 +1,20 @@
-from _datetime import datetime, time
-
+"""REST API"""
+from _datetime import datetime
 from django.conf import settings
 from loguru import logger
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from controller import utils
 from scheduler.models import ZoneMap, ZoneSchedule
 
 
 class ZoneOn(APIView):
+    """REST API to run a zone"""
     permission_classes = (permissions.IsAuthenticated, )
     tz = settings.TIME_ZONE
 
-    def get(self, request, zone):
+    def put(self, request, zone):
         zone_map = ZoneMap.objects.get(num__exact=zone)
         timestamp = f"{datetime.now().strftime('%X')} {self.tz}"
         bcm = zone_map.bcm
@@ -30,10 +30,11 @@ class ZoneOn(APIView):
 
 
 class ZoneOff(APIView):
+    """REST API to stop a zone that is running"""
     permission_classes = (permissions.IsAuthenticated, )
     tz = settings.TIME_ZONE
 
-    def get(self, request, zone):
+    def put(self, request, zone):
         zone_map = ZoneMap.objects.get(num__exact=zone)
         timestamp = f"{datetime.now().strftime('%X')} {self.tz}"
         bcm = zone_map.bcm
@@ -49,6 +50,7 @@ class ZoneOff(APIView):
 
 
 class ListJobs(APIView):
+    """List Schedule details"""
     permission_classes = (permissions.IsAuthenticated, )
 
     @staticmethod
@@ -74,8 +76,9 @@ class ListJobs(APIView):
 
 
 class Running(APIView):
+    """Check what is currently running"""
     permission_classes = (permissions.IsAuthenticated, )
 
     @staticmethod
-    def get(request, format=None):
+    def get(request):
         return Response(utils.whats_running())

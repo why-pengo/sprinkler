@@ -29,4 +29,3 @@ class ZoneSchedule(models.Model):
 class AppConfig(models.Model):
     name = models.CharField(max_length=25, primary_key=True, unique=True)
     value = models.CharField(max_length=25)
-

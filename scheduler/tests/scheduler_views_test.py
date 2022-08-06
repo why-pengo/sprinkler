@@ -23,7 +23,6 @@ class SchedulerViewsTests(StaticLiveServerTestCase):
 
     def test_rest_zonemap_api_call(self):
         response = requests.get(f"{self.live_server_url}/zones/?format=json")
-        json_data = response.json()
 
         self.assertEqual(200, response.status_code)
 

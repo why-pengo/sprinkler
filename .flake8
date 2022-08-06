@@ -1,0 +1,9 @@
+[flake8]
+ignore = 
+# ignore = D203,D204,D415,W602,W603 
+exclude =
+    .git,
+    __pycache__,
+    scheduler/migrations/,
+max-line-length = 99
+statistics = True

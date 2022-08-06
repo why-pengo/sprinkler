@@ -13,13 +13,14 @@ class ZoneMapViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows ZoneMap to be viewed or edited.
     """
-    queryset = ZoneMap.objects.all().order_by('num')
+
+    queryset = ZoneMap.objects.all().order_by("num")
     serializer_class = ZoneMapSerializer
 
 
 class ScheduleView(View):
     form_class = SchedulerForm
-    template_name = 'schedule.html'
+    template_name = "schedule.html"
 
     def get(self, request, zs_id):
         dow = str()
@@ -28,10 +29,8 @@ class ScheduleView(View):
         active = True
         run_once = False
         zone = str()
-        if zs_id == '0':
-            initial = {
-                'zone': 'New'
-            }
+        if zs_id == "0":
+            initial = {"zone": "New"}
             form = self.form_class(initial=initial)
         else:
             # zone_obj = ZoneSchedule.objects.get(zone__exact=zone)
@@ -46,32 +45,36 @@ class ScheduleView(View):
             run_once = zone_obj.run_once
             zone = zone_obj.zone
             form = self.form_class()
-        return render(request, self.template_name, {
-            'form': form,
-            'id': zs_id,
-            'dow': dow,
-            'start': start,
-            'end': end,
-            'active': active,
-            'run_once': run_once,
-            'zone': zone,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "id": zs_id,
+                "dow": dow,
+                "start": start,
+                "end": end,
+                "active": active,
+                "run_once": run_once,
+                "zone": zone,
+            },
+        )
 
     def post(self, request):
         form = self.form_class(request.POST)
         logger.debug(request.POST)
         sub_type = str()
-        if 'sub_type' in request.POST:
-            sub_type = request.POST['sub_type']
+        if "sub_type" in request.POST:
+            sub_type = request.POST["sub_type"]
         logger.debug(f"sub_type = {sub_type}")
         if form.is_valid():
-            logger.debug(f"is_valid")
-            if sub_type == 'Save':
-                dow = request.POST['dow']
-                start = request.POST['start']
-                end = request.POST['end']
-                zone = request.POST['zone']
-                active = request.POST['active']
+            logger.debug("is_valid")
+            if sub_type == "Save":
+                dow = request.POST["dow"]
+                start = request.POST["start"]
+                end = request.POST["end"]
+                zone = request.POST["zone"]
+                active = request.POST["active"]
                 # run_once = request.POST['run_once']
                 logger.debug(f"dow = {dow}")
                 logger.debug(f"start = {start}")
@@ -84,24 +87,36 @@ class ScheduleView(View):
                 zone_obj.start = start
                 zone_obj.end = end
                 zone_obj.zone = zone
-                zone_obj.active = True if active == 'on' else False
+                zone_obj.active = True if active == "on" else False
                 # zone_obj.run_once = True if run_once == 'on' else False
                 zone_obj.save()
                 utils.save_crontab_entry(str(zone_obj.id))
-            if sub_type == 'Delete':
-                zs_id = request.POST['zs_id']
+            if sub_type == "Delete":
+                zs_id = request.POST["zs_id"]
                 utils.delete_crontab_entry(zs_id)
-            return HttpResponseRedirect('/schedules')
+            return HttpResponseRedirect("/schedules")
         else:
             logger.debug(f"{form.errors}")
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
 
 class SchedulesView(View):
-    template_name = 'schedules.html'
+    template_name = "schedules.html"
 
     def get(self, request):
-        schedules = ZoneSchedule.objects.all().order_by('dow')
-        return render(request, self.template_name, {'schedules': schedules})
+        schedules_qs = ZoneSchedule.objects.all().order_by("dow")
+        schedules = []
+        for sch in schedules_qs:
+            schedule = {
+                "dow": sch.dow,
+                "dow_name": utils.dow_to_day(sch.dow),
+                "start": sch.start,
+                "end": sch.end,
+                "zone": sch.zone,
+                "active": sch.active,
+                "run_once": sch.run_once,
+            }
+            schedules.append(schedule)
 
+        return render(request, self.template_name, {"schedules": schedules})

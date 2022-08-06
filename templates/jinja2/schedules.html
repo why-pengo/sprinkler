@@ -19,7 +19,7 @@
             {% for schedule in schedules %}
                 <tr class="clickable-row" data-url="schedule/{{ schedule.id }}">
                     <td>{{ schedule.zone }}</td>
-                    <td>{{ schedule.dow }}</td>
+                    <td>{{ schedule.dow_name }}</td>
                     <td>{{ schedule.start }}</td>
                     <td>{{ schedule.end }}</td>
                     <td>{{ schedule.active }}</td>
@@ -28,20 +28,10 @@
             {% endfor %}
             </tbody>
         </table>
-        <div class="text-dark">
-            <span class="help-block">Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6</span>
-        </div>
     </div>
 </div>
 
 <script>
-    $(document).ready(function($) {
-        $(".clickable-row").click(function() {
-            window.location = $(this).data('url');
-        });
-        $('#tbl_schedules').DataTable();
-    });
-
     function ready() {}
 </script>
 
