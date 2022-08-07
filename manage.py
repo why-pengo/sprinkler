@@ -2,9 +2,9 @@
 import os
 import sys
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # django-environ points to the config
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'controller.settings')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "controller.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

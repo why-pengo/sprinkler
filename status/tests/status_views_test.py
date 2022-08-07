@@ -3,13 +3,10 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from django.conf import settings
 import os
 
-SCREEN_DUMP_LOCATION = os.path.join(
-    settings.BASE_DIR, 'screendumps'
-)
+SCREEN_DUMP_LOCATION = os.path.join(settings.BASE_DIR, "screendumps")
 
 
 class StatusViewsTests(StaticLiveServerTestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -23,6 +20,8 @@ class StatusViewsTests(StaticLiveServerTestCase):
 
     def test_landing_page_title(self):
         self.selenium.get(f"{self.live_server_url}")
-        self.selenium.save_screenshot(f"{SCREEN_DUMP_LOCATION}/test_landing_page_title.png")
+        self.selenium.save_screenshot(
+            f"{SCREEN_DUMP_LOCATION}/test_landing_page_title.png"
+        )
 
-        self.assertIn('Sprinkler Controller ][', self.selenium.title)
+        self.assertIn("Sprinkler Controller ][", self.selenium.title)

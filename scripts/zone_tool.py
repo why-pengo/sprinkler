@@ -29,7 +29,7 @@ def zone_on(zone):
             pin=bcm,
             initial_value=None,
             pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
-            active_high=False
+            active_high=False,
         )
         logger.debug(f"bcm value = {relay.value}")
         logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
@@ -49,7 +49,7 @@ def zone_off(zone):
             pin=bcm,
             initial_value=None,
             pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
-            active_high=False
+            active_high=False,
         )
         logger.debug(f"bcm value = {relay.value}")
         logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
@@ -68,7 +68,7 @@ def test_zone(zone):
         pin=bcm,
         initial_value=None,
         pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
-        active_high=False
+        active_high=False,
     )
     logger.debug(f"bcm value = {relay.value}")
     logger.debug(f"pin/bcm = {bcm} to OUTPUT/OFF")
@@ -93,7 +93,7 @@ def read_zones():
             pin=bcm,
             initial_value=None,
             pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
-            active_high=False
+            active_high=False,
         )
         table.add_row(str(zone), str(bcm), str(relay.value))
 
@@ -118,5 +118,5 @@ cli.add_command(test_zone)
 cli.add_command(zone_on)
 cli.add_command(zone_off)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()

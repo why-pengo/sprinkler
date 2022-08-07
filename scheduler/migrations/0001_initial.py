@@ -7,39 +7,59 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='AppConfig',
+            name="AppConfig",
             fields=[
-                ('name', models.CharField(max_length=25, primary_key=True, serialize=False, unique=True)),
-                ('value', models.CharField(max_length=25)),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=25, primary_key=True, serialize=False, unique=True
+                    ),
+                ),
+                ("value", models.CharField(max_length=25)),
             ],
         ),
         migrations.CreateModel(
-            name='ZoneMap',
+            name="ZoneMap",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('num', models.IntegerField()),
-                ('bcm', models.IntegerField()),
-                ('pin', models.IntegerField()),
-                ('gpio', models.IntegerField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("num", models.IntegerField()),
+                ("bcm", models.IntegerField()),
+                ("pin", models.IntegerField()),
+                ("gpio", models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name='ZoneSchedule',
+            name="ZoneSchedule",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('dow', models.CharField(max_length=7)),
-                ('start', models.TimeField()),
-                ('end', models.TimeField()),
-                ('zone', models.IntegerField()),
-                ('active', models.BooleanField(default=True)),
-                ('run_once', models.BooleanField(default=False)),
-                ('crontab', models.CharField(max_length=50)),
-                ('cron_key', models.CharField(max_length=15)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("dow", models.CharField(max_length=7)),
+                ("start", models.TimeField()),
+                ("end", models.TimeField()),
+                ("zone", models.IntegerField()),
+                ("active", models.BooleanField(default=True)),
+                ("run_once", models.BooleanField(default=False)),
+                ("crontab", models.CharField(max_length=50)),
+                ("cron_key", models.CharField(max_length=15)),
             ],
         ),
     ]

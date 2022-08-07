@@ -5,5 +5,5 @@ exclude =
     .git,
     __pycache__,
     scheduler/migrations/,
-max-line-length = 99
+max-line-length = 100
 statistics = True
