@@ -1,5 +1,11 @@
-function editItem(el) {
-  console.log(JSON.stringify(el));
+function editItem(id) {
+  console.log(`id = ${id}`);
+  window.location.href = `/schedule/${id}`;
+}
+
+function deleteItem(id) {
+  console.log(`id = ${id}`);
+  // window.location.href = `/schedules`;
 }
 
 function sortTable(n) {
