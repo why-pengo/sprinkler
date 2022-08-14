@@ -21,13 +21,13 @@ function switchClicked(el) {
     let msg;
     if (checked === false) {
         const url = `/zone_off/${zone}`;
-        fetch(url, {headers: {"X-CSRFToken": csrftoken},})
+        fetch(url, {method: "PUT", headers: {"X-CSRFToken": csrftoken},})
             .then(rv => rv.json())
             .then(data => updateZoneText(zone, `zoneOff ${data.timestamp}`))
             .catch(err => console.log(err));
     } else {
         const url = `/zone_on/${zone}`;
-        fetch(url, {headers: {"X-CSRFToken": csrftoken},})
+        fetch(url, {method: "PUT", headers: {"X-CSRFToken": csrftoken},})
             .then(rv => rv.json())
             .then(data => updateZoneText(zone, `zoneOn ${data.timestamp}`))
             .catch(err => console.log(err));
@@ -35,7 +35,7 @@ function switchClicked(el) {
 }
 
 function updateZoneText(zone, msg) {
-    console.log(`zone = ${zone}, msg = ${msg}`);
+    // console.log(`zone = ${zone}, msg = ${msg}`);
     let ul = document.getElementById(`zone_${zone}_ul`);
     let li = document.createElement("li");
     li.appendChild(document.createTextNode(msg));
@@ -43,7 +43,7 @@ function updateZoneText(zone, msg) {
 }
 
 function setToRunning(zone) {
-    console.log(`called  with ${zone}.`);
+    // console.log(`called  with ${zone}.`);
     if (zone !== 0) {
         console.log(`set zone ${zone} to running.`);
         document.getElementById(`zone${ zone }`).checked = true;
@@ -61,13 +61,13 @@ function getSchedules() {
 function setSchedules(data) {
     for (let zones of data) {
         for (let item in zones) {
-            console.log(`Array.isArray(zones[${item}]) = ${Array.isArray(zones[item])}`);
-            console.log(`zones[${item}] = ${zones[item]}`);
+            // console.log(`Array.isArray(zones[${item}]) = ${Array.isArray(zones[item])}`);
+            // console.log(`zones[${item}] = ${zones[item]}`);
             for (let schedule of zones[item]) {
-                console.log(`item[schedule] = ${item[schedule]}`);
+                // console.log(`item[schedule] = ${item[schedule]}`);
                 let msg = "";
                 for (let [k, v] of Object.entries(schedule)) {
-                    console.log(`k, v = ${k}, ${v}`);
+                    // console.log(`k, v = ${k}, ${v}`);
                     msg = msg.concat(`${v} `);
                 }
                 updateZoneText(item, msg);
