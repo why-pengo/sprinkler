@@ -11,12 +11,12 @@ function ready() {
     document.getElementById("id_start").value = start;
     document.getElementById("id_end").value = end;
     document.getElementById("id_zone").value = zone;
-    if (active === 'True') {
+    if (active === "True") {
         document.getElementById("id_active").checked = true;
     } else {
         document.getElementById("id_active").checked = false;
     }
-    if (run_once === 'True') {
+    if (run_once === "True") {
         document.getElementById("id_run_once").checked = true;
     } else {
         document.getElementById("id_run_once").checked = false;

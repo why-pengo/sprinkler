@@ -7,17 +7,17 @@
         <table id="tbl_schedules" class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Zone</th>
-                <th scope="col">Day of week</th>
-                <th scope="col">Start time</th>
-                <th scope="col">End time</th>
-                <th scope="col">Active</th>
-                <th scope="col">Run Once</th>
+                <th scope="col" onclick="sortTable(0)">Zone</th>
+                <th scope="col" onclick="sortTable(1)">Day of week</th>
+                <th scope="col" onclick="sortTable(2)">Start time</th>
+                <th scope="col" onclick="sortTable(3)">End time</th>
+                <th scope="col" onclick="sortTable(4)">Active</th>
+                <th scope="col" onclick="sortTable(5)">Run Once</th>
             </tr>
             </thead>
             <tbody>
             {% for schedule in schedules %}
-                <tr class="clickable-row" data-url="schedule/{{ schedule.id }}">
+                <tr onclick="editItem(this)">
                     <td>{{ schedule.zone }}</td>
                     <td>{{ schedule.dow_name }}</td>
                     <td>{{ schedule.start }}</td>
@@ -34,5 +34,6 @@
 <script>
     function ready() {}
 </script>
+<script src="{{ static('/js/schedules.js') }}"></script>
 
 {% endblock %}
