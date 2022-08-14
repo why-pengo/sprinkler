@@ -1,39 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container-fluid">
-    <div class="col bg-white rounded-3 mr-5 mt-3 p-2 table-responsive zonebox">
-        <a class="btn btn-primary m-1" href="/schedule/0" role="button">New</a>
-        <table id="tbl_schedules" class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col" onclick="sortTable(0)">Zone</th>
-                <th scope="col" onclick="sortTable(1)">Day of week</th>
-                <th scope="col" onclick="sortTable(2)">Start time</th>
-                <th scope="col" onclick="sortTable(3)">End time</th>
-                <th scope="col" onclick="sortTable(4)">Active</th>
-                <th scope="col" onclick="sortTable(5)">Run Once</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for schedule in schedules %}
-                <tr onclick="editItem(this)">
-                    <td>{{ schedule.zone }}</td>
-                    <td>{{ schedule.dow_name }}</td>
-                    <td>{{ schedule.start }}</td>
-                    <td>{{ schedule.end }}</td>
-                    <td>{{ schedule.active }}</td>
-                    <td>{{ schedule.run_once }}</td>
+    <div class="container-fluid">
+        <div class="col bg-white rounded-3 mr-5 mt-3 p-2 table-responsive zonebox">
+            <a class="btn btn-primary m-1" href="/schedule/0" role="button">New</a>
+            <table id="tbl_schedules" class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" onclick="sortTable(0)"></th>
+                    <th scope="col" onclick="sortTable(0)">Zone</th>
+                    <th scope="col" onclick="sortTable(1)">Day of week</th>
+                    <th scope="col" onclick="sortTable(2)">Start time</th>
+                    <th scope="col" onclick="sortTable(3)">End time</th>
+                    <th scope="col" onclick="sortTable(4)">Active</th>
+                    <th scope="col" onclick="sortTable(5)">Run Once</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for schedule in schedules %}
+                    {#                <tr onclick="editItem({{ schedule.id }})">#}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary m-1" onclick="deleteItem({{ schedule.id }})" role="button">Delete</a>
+                        </td>
+                        <td>{{ schedule.zone }}</td>
+                        <td>{{ schedule.dow_name }}</td>
+                        <td>{{ schedule.start }}</td>
+                        <td>{{ schedule.end }}</td>
+                        <td>{{ schedule.active }}</td>
+                        <td>{{ schedule.run_once }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<script>
-    function ready() {}
-</script>
-<script src="{{ static('/js/schedules.js') }}"></script>
+    <script>
+        function ready() {
+        }
+    </script>
+    <script src="{{ static('/js/schedules.js') }}"></script>
 
 {% endblock %}
