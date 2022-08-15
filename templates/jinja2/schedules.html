@@ -3,7 +3,7 @@
 
     <div class="container-fluid">
         <div class="col bg-white rounded-3 mr-5 mt-3 p-2 table-responsive zonebox">
-            <a class="btn btn-primary m-1" href="/schedule/0" role="button">New</a>
+            <a class="btn btn-primary m-1" href="/schedule" role="button">New</a>
             <table id="tbl_schedules" class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -18,7 +18,6 @@
                 </thead>
                 <tbody>
                 {% for schedule in schedules %}
-                    {#                <tr onclick="editItem({{ schedule.id }})">#}
                     <tr>
                         <td>
                             <a class="btn btn-primary btn-sm" onclick="deleteItem({{ schedule.id }})" role="button">Delete</a>

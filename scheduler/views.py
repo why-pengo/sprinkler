@@ -20,7 +20,7 @@ class ZoneMapViewSet(viewsets.ModelViewSet):
 class ScheduleView(View):
     template_name = "schedule.html"
 
-    def get(self, request, zs_id):
+    def get(self, request):
         dow = str()
         start = str()
         end = str()
@@ -29,23 +29,10 @@ class ScheduleView(View):
         zone = str()
         crontab = str()
         cron_key = str()
-        zone_obj = ZoneSchedule.objects.get(pk=zs_id)
-        logger.debug(f"id = {zs_id}")
-        logger.debug(f"zone = {zone_obj.zone}")
-        logger.debug(f"dow = {zone_obj.dow}")
-        dow = zone_obj.dow
-        start = zone_obj.start
-        end = zone_obj.end
-        active = zone_obj.active
-        run_once = zone_obj.run_once
-        zone = zone_obj.zone
-        crontab = zone_obj.crontab
-        cron_key = zone_obj.cron_key
         return render(
             request,
             self.template_name,
             {
-                "id": zs_id,
                 "dow": dow,
                 "start": start,
                 "end": end,

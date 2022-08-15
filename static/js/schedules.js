@@ -1,8 +1,3 @@
-function editItem(id) {
-  console.log(`id = ${id}`);
-  window.location.href = `/schedule/${id}`;
-}
-
 function deleteItem(id) {
   console.log(`id = ${id}`);
   const csrftoken = getCookie("csrftoken");
@@ -10,7 +5,8 @@ function deleteItem(id) {
   fetch(url, {method: "DELETE", headers: {"X-CSRFToken": csrftoken},})
       .then(rv => console.log(rv))
       .catch(err => console.log(err));
-  // window.location.href = `/schedules`;
+
+  window.location.href = "/schedules";
 }
 
 function sortTable(n) {

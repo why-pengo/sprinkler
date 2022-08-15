@@ -17,7 +17,7 @@ urlpatterns = [
     path("", HomeView.as_view()),
     path("schedules", login_required(SchedulesView.as_view())),
     path("schedule", login_required(ScheduleView.as_view())),
-    path("schedule/<zs_id>", login_required(ScheduleView.as_view())),
+    # path("schedule/<zs_id>", login_required(ScheduleView.as_view())),
     # api
     path("", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
