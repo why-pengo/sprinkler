@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from status.views import HomeView
-from controller.api import ZoneOn, ZoneOff, Running, ListJobs
+from controller.api import ZoneOn, ZoneOff, Running, ListJobs, DeleteSchedule
 from scheduler.views import ZoneMapViewSet, SchedulesView, ScheduleView
 from django.contrib.auth.decorators import login_required
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("zone_on/<zone>", ZoneOn.as_view()),
     path("zone_off/<zone>", ZoneOff.as_view()),
+    path("delete_schedule/<zs_id>", DeleteSchedule.as_view()),
     path("running/", Running.as_view()),
     path("list_jobs/", ListJobs.as_view()),
 ]

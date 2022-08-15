@@ -10,7 +10,7 @@ from scheduler.models import ZoneMap, ZoneSchedule
 
 
 class ZoneOn(APIView):
-    """REST API to run a zone"""
+    """Run a zone"""
 
     permission_classes = (permissions.IsAuthenticated,)
     tz = settings.TIME_ZONE
@@ -28,7 +28,7 @@ class ZoneOn(APIView):
 
 
 class ZoneOff(APIView):
-    """REST API to stop a zone that is running"""
+    """Stop a zone"""
 
     permission_classes = (permissions.IsAuthenticated,)
     tz = settings.TIME_ZONE
@@ -41,6 +41,19 @@ class ZoneOff(APIView):
         logger.debug(f"bcm = {bcm}")
         utils.relay_call(bcm, 1)
         rv = {"zoneOff": f"{zone}", "timestamp": f"{timestamp}"}
+        logger.info(f"rv = {rv}")
+        return Response(rv)
+
+
+class DeleteSchedule(APIView):
+    """Delete a schedule"""
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def delete(request, zs_id):
+        utils.delete_crontab_entry(zs_id)
+        rv = {"delete_id": f"{zs_id}"}
         logger.info(f"rv = {rv}")
         return Response(rv)
 

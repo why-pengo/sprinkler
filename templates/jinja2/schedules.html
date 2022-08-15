@@ -21,7 +21,7 @@
                     {#                <tr onclick="editItem({{ schedule.id }})">#}
                     <tr>
                         <td>
-                            <a class="btn btn-primary m-1" onclick="deleteItem({{ schedule.id }})" role="button">Delete</a>
+                            <a class="btn btn-primary btn-sm" onclick="deleteItem({{ schedule.id }})" role="button">Delete</a>
                         </td>
                         <td>{{ schedule.zone }}</td>
                         <td>{{ schedule.dow_name }}</td>
@@ -41,5 +41,6 @@
         }
     </script>
     <script src="{{ static('/js/schedules.js') }}"></script>
+    <script src="{{ static('/js/utils.js') }}"></script>
 
 {% endblock %}

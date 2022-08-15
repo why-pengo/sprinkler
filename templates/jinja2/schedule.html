@@ -1,33 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-{#
-<br />
-<div class="bg-light text-dark rounded-lg">id = {{ id }}</div>
-<br />
-#}
 
 <div class="container center-block" style="width: 760px;">
     <div class="bg-white rounded-3 m-3 p-3 zonebox">
-        <form action="/schedule" method="post">
+        <form action="/schedule" method="post" onsubmit="validate()">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <div class="form-group">
-{#                {{ form.dow.errors }}#}
                 <label class="control-label" for="id_dow">Day of week</label>
                 <div id="id_dow" class="mb-3 mt-1 p-1">
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="0">Sunday</button>
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="1">Monday</button>
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="2">Tuesday</button>
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="3">Wednesday</button>
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="4">Thursday</button>
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="5">Friday</button>
-                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" value="6">Saturday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="0">Sunday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="1">Monday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="2">Tuesday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="3">Wednesday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="4">Thursday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="5">Friday</button>
+                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="button" onclick="updateDow(this)" value="6">Saturday</button>
                 </div>
+                <div id="dow_err" class="d-none mb-3 mt-1 p-1 text-danger"></div>
             </div>
             <div class="form-group">
-{#                {{ form.start.errors }}#}
                 <label class="control-label" for="id_start">Start time</label>
                 <div id="id_start" class="input-group mb-3 mt-1 p-1">
-                    <select class="form-select form-select-lg m-1">
+                    <select id="start_hour" onchange="updateStart()" required class="form-select form-select-lg m-1">
                         <option>01</option>
                         <option>02</option>
                         <option>03</option>
@@ -42,7 +36,7 @@
                         <option>12</option>
                     </select>
                     <span class="m-2 fs-1">:</span>
-                    <select class="form-select form-select-lg m-1">
+                    <select id="start_minute" onchange="updateStart()" required class="form-select form-select-lg m-1">
                         <option>00</option>
                         <option>05</option>
                         <option>10</option>
@@ -56,17 +50,17 @@
                         <option>50</option>
                         <option>55</option>
                     </select>
-                    <select class="form-select form-select-lg m-1">
+                    <select id="start_ampm" onchange="updateStart()" class="form-select form-select-lg m-1">
                         <option selected>AM</option>
                         <option>PM</option>
                     </select>
                 </div>
+                <div id="start_err" class="d-none mb-3 mt-1 p-1 text-danger"></div>
             </div>
             <div class="form-group">
-{#                {{ form.end.errors }}#}
                 <label class="control-label" for="id_end">End time</label>
                 <div id="id_end" class="input-group mb-3 mt-1 p-1">
-                    <select class="form-select form-select-lg m-1">
+                    <select id="end_hour" onchange="updateEnd()" required class="form-select form-select-lg m-1">
                         <option>01</option>
                         <option>02</option>
                         <option>03</option>
@@ -81,7 +75,7 @@
                         <option>12</option>
                     </select>
                     <span class="m-2 fs-1">:</span>
-                    <select class="form-select form-select-lg m-1">
+                    <select id="end_minute" onchange="updateEnd()" required class="form-select form-select-lg m-1">
                         <option>00</option>
                         <option>05</option>
                         <option>10</option>
@@ -95,42 +89,35 @@
                         <option>50</option>
                         <option>55</option>
                     </select>
-                    <select class="form-select form-select-lg m-1">
+                    <select id="end_ampm" onchange="updateEnd()" class="form-select form-select-lg m-1">
                         <option selected>AM</option>
                         <option>PM</option>
                     </select>
                 </div>
+                <div id="end_err" class="d-none mb-3 mt-1 p-1 text-danger"></div>
             </div>
             <div class="form-group">
-{#                {{ form.zone.errors }}#}
                 <label class="control-label" for="id_zone">Zone</label>
-                <select name="zone" id="id_zone" class="form-select form-select-lg m-1">
+                <select name="zone" id="id_zone" onchange="updateZone(this)" required class="form-select form-select-lg m-1">
+                    <option></option>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
                 </select>
+                <div id="zone_err" class="d-none mb-3 mt-1 p-1 text-danger"></div>
             </div>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input class="btn btn-primary btn-lg" name="sub_type" type="submit" value="Save">
-{#                <input class="btn btn-primary btn-lg" name="sub_type" type="submit" value="Delete">#}
-                <input name="zs_id" type="hidden" value="{{ id }}">
+                <input name="dow" id="dow" type="hidden" value="">
+                <input name="start" id="start" type="hidden" value="">
+                <input name="end" id="end" type="hidden" value="">
+                <input name="zone" id="zone" type="hidden" value="">
             </div>
         </form>
     </div>
 </div>
 
-<script>
-    let id = "{{ id }}";
-    let dow = "{{ dow }}";
-    let start = "{{ start }}";
-    let end = "{{ end }}";
-    let active = "{{ active }}";
-    let run_once = "{{ run_once }}";
-    let zone = "{{ zone }}";
-    let crontab = "{{ crontab }}";
-    let cron_key = "{{ cron_key }}";
-</script>
 <script src="{{ static('/js/schedule.js') }}"></script>
 {% endblock %}

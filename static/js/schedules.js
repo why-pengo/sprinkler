@@ -5,6 +5,11 @@ function editItem(id) {
 
 function deleteItem(id) {
   console.log(`id = ${id}`);
+  const csrftoken = getCookie("csrftoken");
+  const url = `/delete_schedule/${id}`;
+  fetch(url, {method: "DELETE", headers: {"X-CSRFToken": csrftoken},})
+      .then(rv => console.log(rv))
+      .catch(err => console.log(err));
   // window.location.href = `/schedules`;
 }
 
