@@ -4,9 +4,9 @@ function deleteItem(id) {
   const url = `/delete_schedule/${id}`;
   fetch(url, {method: "DELETE", headers: {"X-CSRFToken": csrftoken},})
       .then(rv => console.log(rv))
+      .then( () => window.location.href = "/schedules")
       .catch(err => console.log(err));
 
-  window.location.href = "/schedules";
 }
 
 function sortTable(n) {
