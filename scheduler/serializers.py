@@ -3,7 +3,6 @@ from .models import ZoneMap
 
 
 class ZoneMapSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ZoneMap
-        fields = ('num', 'bcm', 'pin', 'gpio')
+        fields = ("num", "bcm", "pin", "gpio")

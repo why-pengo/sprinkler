@@ -4,12 +4,11 @@ import requests
 import os
 
 SCREEN_DUMP_LOCATION = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'screendumps'
+    os.path.dirname(os.path.abspath(__file__)), "screendumps"
 )
 
 
 class SchedulerViewsTests(StaticLiveServerTestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -23,7 +22,5 @@ class SchedulerViewsTests(StaticLiveServerTestCase):
 
     def test_rest_zonemap_api_call(self):
         response = requests.get(f"{self.live_server_url}/zones/?format=json")
-        json_data = response.json()
 
         self.assertEqual(200, response.status_code)
-

@@ -1,57 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
-            crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-
-<div class="container-fluid">
-    <div class="col bg-white rounded-3 mr-5 mt-3 p-2 table-responsive zonebox">
-        <a class="btn btn-primary m-1" href="/schedule/0" role="button">New</a>
-        <table id="tbl_schedules" class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Zone</th>
-                <th scope="col">Day of week</th>
-                <th scope="col">Start time</th>
-                <th scope="col">End time</th>
-                <th scope="col">Active</th>
-                <th scope="col">Run Once</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for schedule in schedules %}
-                <tr class="clickable-row" data-url="schedule/{{ schedule.id }}">
-                    <td>{{ schedule.zone }}</td>
-                    <td>{{ schedule.dow }}</td>
-                    <td>{{ schedule.start }}</td>
-                    <td>{{ schedule.end }}</td>
-                    <td>{{ schedule.active }}</td>
-                    <td>{{ schedule.run_once }}</td>
+    <div class="container-fluid">
+        <div class="col bg-white rounded-3 mr-5 mt-3 p-2 table-responsive zonebox">
+            <a class="btn btn-primary m-1" href="/schedule" role="button">New</a>
+            <table id="tbl_schedules" class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" onclick="sortTable(0)"></th>
+                    <th scope="col" onclick="sortTable(0)">Zone</th>
+                    <th scope="col" onclick="sortTable(1)">Day of week</th>
+                    <th scope="col" onclick="sortTable(2)">Start time</th>
+                    <th scope="col" onclick="sortTable(3)">End time</th>
+                    <th scope="col" onclick="sortTable(4)">Active</th>
+                    <th scope="col" onclick="sortTable(5)">Run Once</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <div class="text-dark">
-            <span class="help-block">Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6</span>
+                </thead>
+                <tbody>
+                {% for schedule in schedules %}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary btn-sm" onclick="deleteItem({{ schedule.id }})" role="button">Delete</a>
+                        </td>
+                        <td>{{ schedule.zone }}</td>
+                        <td>{{ schedule.dow_name }}</td>
+                        <td>{{ schedule.start }}</td>
+                        <td>{{ schedule.end }}</td>
+                        <td>{{ schedule.active }}</td>
+                        <td>{{ schedule.run_once }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
 
-<script>
-    $(document).ready(function($) {
-        $(".clickable-row").click(function() {
-            window.location = $(this).data('url');
-        });
-        $('#tbl_schedules').DataTable();
-    });
-
-    function ready() {}
-</script>
+    <script>
+        function ready() {
+        }
+    </script>
+    <script src="{{ static('/js/schedules.js') }}"></script>
+    <script src="{{ static('/js/utils.js') }}"></script>
 
 {% endblock %}

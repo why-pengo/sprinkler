@@ -9,15 +9,16 @@ from crontab import CronTab
 
 def gpio_setup(zone_map):
     """For gpio0-7 write 0/LOW/OFF so we are in a known state at start up"""
-    logger.debug(f"entering...")
+    logger.debug("entering...")
     logger.debug(f"platform.machine() == {platform.machine()}")
-    if platform.machine() == 'armv7l':
+    if platform.machine() == "armv7l":
         import gpiozero
         import gpiozero.pins.rpigpio
+
         gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
-        if 'gpiozero' in sys.modules:
-            logger.debug(f"found gpiozero in sys.modules.")
+        if "gpiozero" in sys.modules:
+            logger.debug("found gpiozero in sys.modules.")
             for i in range(1, len(zone_map)):
                 # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
                 bcm = int(zone_map[i].bcm)
@@ -25,15 +26,17 @@ def gpio_setup(zone_map):
                     pin=bcm,
                     pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
                     initial_value=None,
-                    active_high=False
+                    active_high=False,
                 )
                 value = relay.value
                 logger.debug(f"bcm value = {value}")
                 relay.off()
-                logger.debug(f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF")
+                logger.debug(
+                    f"setting zone = {i} pin/bcm = {zone_map[i].bcm} to OUTPUT/OFF"
+                )
                 logger.debug(f"bcm value = {value}")
         else:
-            logger.debug(f"no gpiozero")
+            logger.debug("no gpiozero")
 
 
 def init_zone_map():
@@ -50,66 +53,66 @@ def init_zone_map():
     """
     # zone 1
     zone_map = ZoneMap()
-    zone_map.num = '1'
-    zone_map.bcm = '17'
-    zone_map.pin = '11'
-    zone_map.gpio = '0'
+    zone_map.num = "1"
+    zone_map.bcm = "17"
+    zone_map.pin = "11"
+    zone_map.gpio = "0"
     zone_map.save()
 
     # zone 2
     zone_map = ZoneMap()
-    zone_map.num = '2'
-    zone_map.bcm = '18'
-    zone_map.pin = '12'
-    zone_map.gpio = '1'
+    zone_map.num = "2"
+    zone_map.bcm = "18"
+    zone_map.pin = "12"
+    zone_map.gpio = "1"
     zone_map.save()
 
     # zone 3
     zone_map = ZoneMap()
-    zone_map.num = '3'
-    zone_map.bcm = '27'
-    zone_map.pin = '13'
-    zone_map.gpio = '2'
+    zone_map.num = "3"
+    zone_map.bcm = "27"
+    zone_map.pin = "13"
+    zone_map.gpio = "2"
     zone_map.save()
 
     # zone 4
     zone_map = ZoneMap()
-    zone_map.num = '4'
-    zone_map.bcm = '22'
-    zone_map.pin = '15'
-    zone_map.gpio = '3'
+    zone_map.num = "4"
+    zone_map.bcm = "22"
+    zone_map.pin = "15"
+    zone_map.gpio = "3"
     zone_map.save()
 
     # zone 5
     zone_map = ZoneMap()
-    zone_map.num = '5'
-    zone_map.bcm = '23'
-    zone_map.pin = '16'
-    zone_map.gpio = '4'
+    zone_map.num = "5"
+    zone_map.bcm = "23"
+    zone_map.pin = "16"
+    zone_map.gpio = "4"
     zone_map.save()
 
     # zone 6
     zone_map = ZoneMap()
-    zone_map.num = '6'
-    zone_map.bcm = '24'
-    zone_map.pin = '18'
-    zone_map.gpio = '5'
+    zone_map.num = "6"
+    zone_map.bcm = "24"
+    zone_map.pin = "18"
+    zone_map.gpio = "5"
     zone_map.save()
 
     # zone 7
     zone_map = ZoneMap()
-    zone_map.num = '7'
-    zone_map.bcm = '25'
-    zone_map.pin = '22'
-    zone_map.gpio = '6'
+    zone_map.num = "7"
+    zone_map.bcm = "25"
+    zone_map.pin = "22"
+    zone_map.gpio = "6"
     zone_map.save()
 
     # zone 8
     zone_map = ZoneMap()
-    zone_map.num = '8'
-    zone_map.bcm = '4'
-    zone_map.pin = '7'
-    zone_map.gpio = '7'
+    zone_map.num = "8"
+    zone_map.bcm = "4"
+    zone_map.pin = "7"
+    zone_map.gpio = "7"
     zone_map.save()
 
     return True
@@ -134,22 +137,25 @@ def relay_call(bcm, call):
     Open/Close relay
     0 = On, 1 = Off
     """
-    if platform.machine() == 'armv7l':
+    if platform.machine() == "armv7l":
         import gpiozero
         import gpiozero.pins.rpigpio
+
         gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
         bcm = int(bcm)
         zone = ZoneMap.objects.get(bcm__exact=bcm)
         timestamp = datetime.now()
-        logger.debug(f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}")
-        if 'gpiozero' in sys.modules:
+        logger.debug(
+            f"zone = {zone.num} bcm = {bcm} call = {call} # 0/On 1/Off time = {timestamp}"
+        )
+        if "gpiozero" in sys.modules:
             # (1 = HIGH/OFF, 0 = LOW/ON ) for our relay board
             relay = gpiozero.OutputDevice(
                 pin=bcm,
                 initial_value=None,
                 pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
-                active_high=False
+                active_high=False,
             )
             if call == 0:
                 relay.on()
@@ -167,18 +173,18 @@ def save_crontab_entry(zs_id):
     logger.debug(f"zs_id = {zs_id}")
     zone_obj = ZoneSchedule.objects.get(pk=zs_id)
     zone = zone_obj.zone
-    comment_id = datetime.now().isoformat(timespec='minutes')
+    comment_id = datetime.now().isoformat(timespec="minutes")
     zone_obj.cron_key = comment_id
     zone_obj.save()
 
     dow = str(zone_obj.dow)
     logger.debug(f"dow = {dow}")
     start = zone_obj.start
-    s_hour, s_min, s_secs = str(start).split(':', 3)
+    s_hour, s_min, s_secs = str(start).split(":", 3)
     logger.debug(f"s_hour = {s_hour}, s_min = {s_min}, s_secs = {s_secs}")
 
     end = zone_obj.end
-    e_hour, e_min, e_secs = str(end).split(':', 3)
+    e_hour, e_min, e_secs = str(end).split(":", 3)
     logger.debug(f"e_hour = {e_hour}, e_min = {e_min}, e_secs = {e_secs}")
 
     cron = read_crontab()
@@ -188,7 +194,7 @@ def save_crontab_entry(zs_id):
 
     start_job = cron.new(
         command=f"{base_dir}/scripts/cron_run.sh {base_dir} {zone} on",
-        comment=f"{comment_id}"
+        comment=f"{comment_id}",
     )
     start_job.dow.on(dow)
     start_job.hour.on(s_hour)
@@ -197,7 +203,7 @@ def save_crontab_entry(zs_id):
 
     end_job = cron.new(
         command=f"{base_dir}/scripts/cron_run.sh {base_dir} {zone} off",
-        comment=f"{comment_id}"
+        comment=f"{comment_id}",
     )
     end_job.dow.on(dow)
     end_job.hour.on(e_hour)
@@ -233,9 +239,10 @@ def delete_crontab_entry(zs_id):
 
 
 def whats_running():
-    if platform.machine() == 'armv7l':
+    if platform.machine() == "armv7l":
         import gpiozero
         import gpiozero.pins.rpigpio
+
         gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
     logger.debug("check if any zone is currently running")
@@ -243,11 +250,11 @@ def whats_running():
     # (1 = HIGH/OFF, 0 = LOW/ON )
     for zone in ZoneMap.objects.all():
         bcm = int(zone.bcm)
-        if 'gpiozero' in sys.modules:
+        if "gpiozero" in sys.modules:
             relay = gpiozero.OutputDevice(
                 pin=bcm,
                 initial_value=None,
-                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory()
+                pin_factory=gpiozero.pins.rpigpio.RPiGPIOFactory(),
             )
             value = relay.value
             logger.debug(f"digitalRead returned = {value}")
@@ -265,20 +272,20 @@ def whats_running():
 
 
 def dow_to_day(dow):
-    if dow == '0' or dow == '7':
-        return 'Sun'
-    if dow == '1':
-        return 'Mon'
-    if dow == '2':
-        return 'Tue'
-    if dow == '3':
-        return 'Wed'
-    if dow == '4':
-        return 'Thu'
-    if dow == '5':
-        return 'Fri'
-    if dow == '6':
-        return 'Sat'
+    if dow == "0" or dow == "7":
+        return "Sun"
+    if dow == "1":
+        return "Mon"
+    if dow == "2":
+        return "Tue"
+    if dow == "3":
+        return "Wed"
+    if dow == "4":
+        return "Thu"
+    if dow == "5":
+        return "Fri"
+    if dow == "6":
+        return "Sat"
 
 
 def close(self):

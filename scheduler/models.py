@@ -5,6 +5,7 @@ class ZoneMap(models.Model):
     """
     Zone Map
     """
+
     num = models.IntegerField()
     bcm = models.IntegerField()
     pin = models.IntegerField()
@@ -15,6 +16,7 @@ class ZoneSchedule(models.Model):
     """
     Zone Schedule
     """
+
     # dow = Day of Week, smtwtfs
     dow = models.CharField(max_length=7)
     start = models.TimeField()
@@ -29,4 +31,3 @@ class ZoneSchedule(models.Model):
 class AppConfig(models.Model):
     name = models.CharField(max_length=25, primary_key=True, unique=True)
     value = models.CharField(max_length=25)
-
