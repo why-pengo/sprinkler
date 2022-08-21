@@ -3,7 +3,7 @@
 
 <div class="container center-block" style="width: 760px;">
     <div class="bg-white rounded-3 m-3 p-3 zonebox">
-        <form action="/schedule" method="post" onsubmit="validate()">
+        <form action="/schedule" method="post" onsubmit="return validate()">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <div class="form-group">
                 <label class="control-label" for="id_dow">Day of week</label>
@@ -22,6 +22,7 @@
                 <label class="control-label" for="id_start">Start time</label>
                 <div id="id_start" class="input-group mb-3 mt-1 p-1">
                     <select id="start_hour" onchange="updateStart()" required class="form-select form-select-lg m-1">
+                        <option></option>
                         <option>01</option>
                         <option>02</option>
                         <option>03</option>
@@ -37,6 +38,7 @@
                     </select>
                     <span class="m-2 fs-1">:</span>
                     <select id="start_minute" onchange="updateStart()" required class="form-select form-select-lg m-1">
+                        <option></option>
                         <option>00</option>
                         <option>05</option>
                         <option>10</option>
@@ -61,6 +63,7 @@
                 <label class="control-label" for="id_end">End time</label>
                 <div id="id_end" class="input-group mb-3 mt-1 p-1">
                     <select id="end_hour" onchange="updateEnd()" required class="form-select form-select-lg m-1">
+                        <option></option>
                         <option>01</option>
                         <option>02</option>
                         <option>03</option>
@@ -76,6 +79,7 @@
                     </select>
                     <span class="m-2 fs-1">:</span>
                     <select id="end_minute" onchange="updateEnd()" required class="form-select form-select-lg m-1">
+                        <option></option>
                         <option>00</option>
                         <option>05</option>
                         <option>10</option>
