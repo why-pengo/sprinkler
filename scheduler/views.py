@@ -59,14 +59,27 @@ class ScheduleView(View):
             logger.debug(f"start = {start}")
             logger.debug(f"end = {end}")
             logger.debug(f"zone = {zone}")
-            zone_obj = ZoneSchedule()
-            zone_obj.dow = dow
-            zone_obj.start = start
-            zone_obj.end = end
-            zone_obj.zone = zone
-            zone_obj.active = True
-            zone_obj.save()
-            utils.save_crontab_entry(str(zone_obj.id))
+            if dow.find(",") != -1:
+                dows = dow.split(",")
+                logger.debug(f"dows = {dows}")
+                for i in dows:
+                    zone_obj = ZoneSchedule()
+                    zone_obj.dow = i
+                    zone_obj.start = start
+                    zone_obj.end = end
+                    zone_obj.zone = zone
+                    zone_obj.active = True
+                    zone_obj.save()
+                    utils.save_crontab_entry(str(zone_obj.id))
+            else:
+                zone_obj = ZoneSchedule()
+                zone_obj.dow = dow
+                zone_obj.start = start
+                zone_obj.end = end
+                zone_obj.zone = zone
+                zone_obj.active = True
+                zone_obj.save()
+                utils.save_crontab_entry(str(zone_obj.id))
         return HttpResponseRedirect("/schedules")
 
     @staticmethod

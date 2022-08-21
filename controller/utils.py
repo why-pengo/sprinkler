@@ -172,13 +172,13 @@ def read_crontab():
 def save_crontab_entry(zs_id):
     logger.debug(f"zs_id = {zs_id}")
     zone_obj = ZoneSchedule.objects.get(pk=zs_id)
-    zone = zone_obj.zone
-    comment_id = datetime.now().isoformat(timespec="minutes")
+    dow = str(zone_obj.dow)
+    logger.debug(f"dow = {dow}")
+    comment_id = f"{datetime.now().isoformat(timespec='minutes')}-{dow}"
     zone_obj.cron_key = comment_id
     zone_obj.save()
 
-    dow = str(zone_obj.dow)
-    logger.debug(f"dow = {dow}")
+    zone = zone_obj.zone
     start = zone_obj.start
     s_hour, s_min, s_secs = str(start).split(":", 3)
     logger.debug(f"s_hour = {s_hour}, s_min = {s_min}, s_secs = {s_secs}")

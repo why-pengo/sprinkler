@@ -123,5 +123,4 @@ function validate() {
     }
 
     console.log("form validation good.");
-    return true;
 }

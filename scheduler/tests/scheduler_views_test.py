@@ -9,6 +9,8 @@ SCREEN_DUMP_LOCATION = os.path.join(
 
 
 class SchedulerViewsTests(StaticLiveServerTestCase):
+    selenium = None
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
