@@ -1,5 +1,5 @@
 """REST API"""
-from _datetime import datetime
+from datetime import datetime
 from django.conf import settings
 from loguru import logger
 from rest_framework import permissions
