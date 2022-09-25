@@ -16,10 +16,10 @@ class ZoneOn(APIView):
     tz = settings.TIME_ZONE
 
     def put(self, request, zone):
+        logger.debug(f"zone = {zone}")
         zone_map = ZoneMap.objects.get(num__exact=zone)
         timestamp = f"{datetime.now().strftime('%X')} {self.tz}"
         bcm = zone_map.bcm
-        logger.debug(f"zone = {zone}")
         logger.debug(f"bcm = {bcm}")
         utils.relay_call(bcm, 0)
         rv = {"zoneOn": f"{zone}", "timestamp": f"{timestamp}"}

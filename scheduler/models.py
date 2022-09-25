@@ -6,7 +6,7 @@ class ZoneMap(models.Model):
     Zone Map
     """
 
-    num = models.IntegerField()
+    num = models.IntegerField(unique=True)
     bcm = models.IntegerField()
     pin = models.IntegerField()
     gpio = models.IntegerField()

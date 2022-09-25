@@ -124,7 +124,8 @@ def get_current_zone_map():
     return zone_map
 
 
-def print_zone_map(zone_map):
+def print_zone_map():
+    zone_map = get_current_zone_map()
     for zone in zone_map:
         logger.debug(f"zone.num = {zone.num}")
         logger.debug(f"\tzone.bcm = {zone.bcm}")
