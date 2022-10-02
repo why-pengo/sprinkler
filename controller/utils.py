@@ -51,6 +51,10 @@ def init_zone_map():
     zoneMap[7] = 25  # 22 gpio6
     zoneMap[8] = 4   # 7 gpio7
     """
+    # print(f"count = {ZoneMap.objects.count()}")
+    if ZoneMap.objects.count() != 0:
+        return True
+
     # zone 1
     zone_map = ZoneMap()
     zone_map.num = "1"
