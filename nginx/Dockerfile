@@ -1,0 +1,4 @@
+FROM nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+# COPY cert.pem /etc/nginx/cert.pem
+# COPY cert.key /etc/nginx/cert.key
