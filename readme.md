@@ -54,3 +54,18 @@ https://gpiozero.readthedocs.io/en/stable/faq.html#why-do-i-get-pinfactoryfallba
 
 As I am using this only on my local private network, I'll use a self-signed cert. 
 I followed this Digital Ocean [guide](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-debian-10)
+
+### Docker compose for nginx
+
+```bash
+cd nginx
+docker-compose up
+```
+
+### Django startup
+
+```bash
+poetry shell
+python manage.py collectstatic
+gunicorn --bind 0.0.0.0:8000 controller.wsgi
+```
