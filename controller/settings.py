@@ -16,6 +16,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = ["http://sprinkler.local:8080"]
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
