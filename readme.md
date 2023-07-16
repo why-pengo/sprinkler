@@ -67,5 +67,5 @@ docker-compose up
 ```bash
 poetry shell
 python manage.py collectstatic
-gunicorn --bind 0.0.0.0:8000 controller.wsgi
+gunicorn --bind 0.0.0.0:8000 controller.wsgi:applicaiton
 ```
